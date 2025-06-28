@@ -1,0 +1,33 @@
+? options
+
+? defaults
+	optional/required
+
+? page 0: ## page title
+
+? bool bool_name = true
+? str str_name = "str_value"
+? num num_name = num_value
+
+? 0: ### checkboxes
+	min=1,max=2
+	required/optional
+	hidewhen=bool_name
+	> description
+	>
+	> with multiple lines
+	[] 0: option 1
+		paragraph
+	[x] 1: option 2
+
+? 1: ### multiple-choice / radio buttons*
+	() 0: option 1
+		paragraph
+	(x) 1: option 2
+
+? 3: ### short paragraph*
+	type=[text/date/number/email/area]
+	value=,placeholder=
+	min=,max=
+
+? page 1: ## page title

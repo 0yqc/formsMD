@@ -3,11 +3,11 @@
 ? defaults
 	optional/required
 
-? page 0: ## page title
+? page 0: ## page titles
 
 ? bool bool_name = true
-? str str_name = "str_value"
-? num num_name = num_value
+? str str_name = "str_value" // explanation
+// ? num num_name = num_value (won't be rendered)
 
 ? 0: ### checkboxes
 	min=1,max=2

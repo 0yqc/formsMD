@@ -34,8 +34,9 @@ def checkbox(text: str):
 			lines[i] = lines[i] + '</label>'
 		# paragraphs
 		elif lines[i].startswith('\t\t'):
-			lines[i] = '<input type="checkbox" class="hidden"></input><label>' + lines[i].replace('\t\t','') + '</label>'
-		i += 1
+			lines[i] = '<input type="checkbox" class="hidden"></input><label>' + lines[i].replace('\t\t','') + '</label>' # hidden checkbox to match alignment
+		i += 1 # go to next line
+	lines[-1] = lines[-1] + '</div>' # add final closing div at the end
 	return '\n'.join(lines)
 
 def multiple(text: str):

@@ -3,7 +3,7 @@
 ? defaults
 	optional/required
 
-? page 0: ## page titles
+? page 0: ## page title
 
 ? bool bool_name = true
 ? str str_name = "str_value" // explanation

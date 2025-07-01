@@ -10,6 +10,9 @@ def file(file):
 	with open(file, 'r') as file:
 		lines = file.readlines()
 	for n, i in enumerate(lines): # n is a counter (0,1,2,...), i is the current line
+		if i.startswith('//'): # comment line
+			lines[n] = '' # clear the current line (comments won't be rendered)
+			continue
 		if i.startswith('?'): # a block starts
 			block_construction = True # indicator that the block is being constructed
 			block_str = i # add the first line of the block to the block string
@@ -29,6 +32,6 @@ def file(file):
 	return(''.join(lines)) # return everything at the end, joined together
 
 def block(text: str): # block compiling logic
-	if text.count('\n\t[]') or text.count('\n\t[ ]') or text.lower().count('\n\t[x]'): # checkbox question (text.count() == 0 is false)
+	if '\n\t[]' in text or '\n\t[ ]' in text or '\n\t[x]' in text.lower(): # checkbox question
 		text = compiler.checkbox(text)
 	return text

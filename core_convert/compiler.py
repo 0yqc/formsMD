@@ -1,43 +1,81 @@
-import re as regex # regex search / replace
+import re as regex
+
+# --- VARS --- #
+
+used_qid = []
+
+# --- ALL BLOCKS --- #
+
+def q_head(line: str): #
+	title = ':'.join(line.split(':')[1:]).strip() # everything from the first ':', stripped, so sapces won't matter
+	if line.split(':')[0][1:].strip() and ':' in line: # if there is a given id (there is something between '?' and ':' / end of str and there even is ':')
+		id = line.split(':')[0][1:].strip() # everything until the first ':', cut off the first char (?), then strip (remove trailing/leading whitespaces)
+	else: # an id needs to be generated
+		id = regex.sub('[^a-zA-Z\d-]','-',title).lower() # replace anything except alphanumeric chars and '-' to - and turn it lowercase
+		while '--' in id: # while there are double hyphens
+			id.replace('--','-') # remove them (turn into 1)
+			# this way, even 3 hyphens get turned into 2 and then into 1
+		id.strip('-') # remove starting / trailing hyphens
+		# system to only use each qid once: (append numbers otherwise)
+		i = 0
+		if id in used_qid:
+			while id in used_qid:
+				i += 1
+				if not (id + '-' + i) in used_qid:
+					break
+			used_qid.append(id + '-' + i)
+			id = id + '-' + i
+		else:
+			used_qid.append(id)
+	return id, title
+
+def q_description(text: str):
+	text = text.replace('\n\t>','\n') # remove quotes
+	text = regex.sub('\n *','\n',text) # remove leading whitespaces
+	text = '<p>' + text + '</p>'
+	text = text.replace('\n\n','</p><p>') # insert new paragraph on double newline
+	return text
+
+# --- BLOCK SPECIFIC --- #
+
+def checkbox_answer(line: str, qid: str, count: int):
+	if ':' in line: # an id was set
+		aid = line.split(']')[1].split(':')[0].strip() # between ']' and ':', striped
+		line = line.split(']')[0] + ']' + "".join(line.split(':')[1:]) # remove id from line
+	else:
+		aid = count # the nth option
+	if line.startswith(('[]','[ ]')): # empty checkbox
+		label = regex.sub('\[ *\]','',line).strip() # remove checkbox symbol (with(-out) space(s) inbetween), striped
+		return f'<div id="{qid}_{aid}" class="answer checkbox"><input type="checkbox" name="{qid}_{aid}" id="{qid}_{aid}_checkbox"></input><label for="{qid}_{aid}_checkbox" id="{qid}_{aid}_label">{label}</label></div>'
+	elif line.startswith('[x]'):
+		label = line.replace('[x]','').strip() # remove checkbox symbol, striped
+		return f'<div id="{qid}_{aid}" class="answer checkbox"><input type="checkbox" name="{qid}_{aid}" id="{qid}_{aid}_checkbox" checked></input><label for="{qid}_{aid}_checkbox" id="{qid}_{aid}_label">{label}</label></div>'
+	else: # fake paragraph
+		label = line.strip()
+		return f'<div id="{qid}_{aid}" class="answer text"><input type="checkbox" name="{qid}_{aid}" id="{qid}_{aid}_checkbox" style="visibility:hidden;"></input><label id="{qid}_{aid}_label">{label}</label></div>'
+
+
+# --- BLOCKS --- #
 
 def checkbox(text: str):
-	lines = text.split('\n') # split every line to iterate
-	qid = lines[0].split(":")[0].removeprefix("? ") # get the question id (qid)
-	i = 0
-	while i < len(lines): # syntax to have a counter and dynmically change the current line
-		# first line
-		if lines[i].startswith('? '):
-			lines[i] = lines[i].replace('? ','<div id="',1) # init the div for the question
-			# qid (questionid) is inbetween
-			lines[i] = lines[i].replace(': ','"><div class="title">',1) # close the div (only at first ':')
-			lines[i] = lines[i] + '</div>'
-		# description lines
-		elif lines[i].startswith('\t> '):
-			lines[i] = lines[i].replace('\t> ','<div class="description">') # init the div for the descr
-			i += 1 # go to the next lines
-			while lines[i].startswith('\t> '): # check every line if the description continues
-				lines[i] = lines[i].replace('\t> ','') # if yes, replace it
-				i += 1 # go to the next line
-			i -= 1 # if in line that doesn't start with \t> anymore, go to the previous (go to next in next run again)
-			lines[i] = lines[i] + '</div>' # add a div to the end
-		# checkboxes
-		elif lines[i].startswith('\t[]') or lines[i].startswith('\t[ ]'): # empty checkbox
-			aid = lines[i].split(' ')[2] # get answerid (aid)
-			# checkbox / label
-			lines[i] = regex.sub('\t\[ \] \S* ', '<input type="checkbox" id="' + qid + '_' + aid + '" name="' + qid + "_" + aid + '"></input>' + '<label for="' + qid + '_' + aid + '">', lines[i]) # normal notation
-			lines[i] = regex.sub('\t\[\] \S* ', '<input type="checkbox" id="' + qid + '_' + aid + '" name="' + qid + "_" + aid + '"></input>' + '<label for="' + qid + '_' + aid + '">', lines[i]) # short notation
-			lines[i] = lines[i] + '</label>'
-		elif lines[i].lower().startswith('\t[x]'): # checked checkboxes
-			aid = lines[i].split(' ')[1] # get answerid (aid)
-			# checkbox / label
-			lines[i] = regex.sub('\t\[x\] \S* ', '<input type="checkbox" id="' + qid + '_' + aid + '" name="' + qid + "_" + aid + '" checked></input>' + '<label for="' + qid + '_' + aid + '">', lines[i]) # normal notation
-			lines[i] = lines[i] + '</label>'
-		# paragraphs
-		elif lines[i].startswith('\t\t'):
-			lines[i] = '<input type="checkbox" class="hidden"></input><label>' + lines[i].replace('\t\t','') + '</label>' # hidden checkbox to match alignment
+	lines = text.split('\n') # create array of lines
+	qid, title = q_head(lines[0]) # generate the qid (question id) and title
+	i = 0 # line counter
+	descr = '' # init
+	aid = 0 # init
+	answer_html = '' # init
+	description_started = False # init
+	while i < len(lines): # alternate syntax to "for line in lines" to dynamically change the current line number
+		if lines[i].startswith('\t>'): # description lines
+			descr += '\n' + lines[i] # add the current line to the description tag
+			description_started = True
+			# go to the next line:
+			i += 1
+			continue
+		elif description_started == True: # only if the construction of the description has started already
+			descr = q_description(descr) # the description is done, so it will be generated
+		if lines[i].startswith(('\t[','\t\t')): # checkbox or paragraph
+			answer_html += checkbox_answer(lines[i].strip(),qid,aid) # add checkbox line to the options
+			aid += 1
 		i += 1 # go to next line
-	lines[-1] = lines[-1] + '</div>' # add final closing div at the end
-	return '\n'.join(lines)
-
-def multiple(text: str):
-	None
+	return f'<div id="{qid}" class="question checkbox"><h3 id="{qid}_title" class="question checkbox title">{title}</h3><div id="{qid}_description" class="question checkbox description">{descr}</div>{answer_html}</div>'

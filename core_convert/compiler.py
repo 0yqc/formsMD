@@ -24,13 +24,13 @@ def checkbox(text: str):
 		elif lines[i].startswith('\t[]') or lines[i].startswith('\t[ ]'): # empty checkbox
 			aid = lines[i].split(' ')[2] # get answerid (aid)
 			# checkbox / label
-			lines[i] = regex.sub('\t\[ \] \S* ', '<input type="checkbox" id="' + qid + '_' + aid + '" name="' + qid + "_" + aid + '"></input>' + '<label for="' + qid + '_' + aid + '>', lines[i]) # normal notation
-			lines[i] = regex.sub('\t\[\] \S* ', '<input type="checkbox" id="' + qid + '_' + aid + '" name="' + qid + "_" + aid + '"></input>' + '<label for="' + qid + '_' + aid + '>', lines[i]) # short notation
+			lines[i] = regex.sub('\t\[ \] \S* ', '<input type="checkbox" id="' + qid + '_' + aid + '" name="' + qid + "_" + aid + '"></input>' + '<label for="' + qid + '_' + aid + '">', lines[i]) # normal notation
+			lines[i] = regex.sub('\t\[\] \S* ', '<input type="checkbox" id="' + qid + '_' + aid + '" name="' + qid + "_" + aid + '"></input>' + '<label for="' + qid + '_' + aid + '">', lines[i]) # short notation
 			lines[i] = lines[i] + '</label>'
 		elif lines[i].lower().startswith('\t[x]'): # checked checkboxes
 			aid = lines[i].split(' ')[1] # get answerid (aid)
 			# checkbox / label
-			lines[i] = regex.sub('\t\[x\] \S* ', '<input type="checkbox" id="' + qid + '_' + aid + '" name="' + qid + "_" + aid + '" checked></input>' + '<label for="' + qid + '_' + aid + '>', lines[i]) # normal notation
+			lines[i] = regex.sub('\t\[x\] \S* ', '<input type="checkbox" id="' + qid + '_' + aid + '" name="' + qid + "_" + aid + '" checked></input>' + '<label for="' + qid + '_' + aid + '">', lines[i]) # normal notation
 			lines[i] = lines[i] + '</label>'
 		# paragraphs
 		elif lines[i].startswith('\t\t'):

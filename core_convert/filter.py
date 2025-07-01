@@ -28,10 +28,7 @@ def file(file):
 			lines[n] = block(block_str) # compile the block
 	return(''.join(lines)) # return everything at the end, joined together
 
-html = None # init
 def block(text: str): # block compiling logic
 	if text.count('\n\t[]') or text.count('\n\t[ ]') or text.lower().count('\n\t[x]'): # checkbox question (text.count() == 0 is false)
 		text = compiler.checkbox(text)
-	elif text.count('\n\t()') or text.count('\n\t( )') or text.lower().count('\n\t(x)'): # multiple-choice question
-		compiler.multiple(text)
 	return text

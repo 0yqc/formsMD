@@ -36,6 +36,8 @@ def file(file_path):
 def block(text: str): # block compiling logic
 	if '\n\t[]' in text or '\n\t[ ]' in text or '\n\t[x]' in text.lower(): # checkbox question
 		text = compiler.checkbox(text)
-	if '\n\t()' in text or '\n\t( )' in text or '\n\t(x)' in text.lower(): # multiple choice question
+	elif '\n\t()' in text or '\n\t( )' in text or '\n\t(x)' in text.lower(): # multiple choice question
 		text = compiler.multiple_choice(text)
+	elif 'type=' in text:
+		text = compiler.text(text)
 	return text

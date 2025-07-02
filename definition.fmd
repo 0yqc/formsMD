@@ -26,7 +26,7 @@
 	(x) option 2
 
 ? 3: ### short paragraph*
-	type=[text/date/number/email/area]
+	type=[*text*/date/number/email/area]
 	value=,placeholder=
 	min=,max=
 

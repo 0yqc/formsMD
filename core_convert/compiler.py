@@ -1,4 +1,3 @@
-import ast # str to dict
 import re
 
 # --- VARS --- #
@@ -44,8 +43,12 @@ def q_description(descr: str):
 
 
 def q_options(line: str):
-	options_str = re.findall('''([a-z]+)(=)([^,]+|'[^']*'|"[^"]*")''',line) # finds all label=value
-	print(options_str)
+	options_re = re.findall('''([a-z]+)(=)([^,]+|'[^']*'|"[^"]*")''', line)  # finds all label=value
+	options = {}
+	for i in options_re:
+		options.update({str(i[0].strip('"\'')): str(i[2].strip('"\''))})  # update the dict with the new option, which will get quotes removed and turned into a string
+	return options
+
 
 # --- BLOCK SPECIFIC --- #
 
@@ -58,7 +61,7 @@ def checkbox_answer(line: str, qid: str, count: int):
 	if line.startswith(('[]', '[ ]')):  # empty checkbox
 		label = re.sub('\[ *]', '', line).strip()  # remove checkbox symbol (with(-out) space(s) in between), striped
 		return f'<div id="{qid}_{aid}" class="answer checkbox"><input type="checkbox" name="{qid}_{aid}" id="{qid}_{aid}_checkbox"></input><label for="{qid}_{aid}_checkbox" id="{qid}_{aid}_label">{label}</label></div>'
-	elif line.startswith('[x]'):
+	elif line.lower().startswith('[x]'):
 		label = line.replace('[x]', '').strip()  # remove checkbox symbol, striped
 		return f'<div id="{qid}_{aid}" class="answer checkbox"><input type="checkbox" name="{qid}_{aid}" id="{qid}_{aid}_checkbox" checked></input><label for="{qid}_{aid}_checkbox" id="{qid}_{aid}_label">{label}</label></div>'
 	else:  # fake paragraph
@@ -75,7 +78,7 @@ def multiple_choice_answer(line: str, qid: str, count: int):
 	if line.startswith(('()', '( )')):  # unchecked radio select
 		label = re.sub('\( *\)', '', line).strip()  # remove radio symbol (with(-out) space(s) in between), striped
 		return f'<div id="{qid}_{aid}" class="answer multiple-choice"><input type="radio" name="{qid}_radio" id="{qid}_{aid}_radio" value="{qid}_{aid}"><label for="{qid}_{aid}_radio" id="{qid}_{aid}_label">{label}</label></div>'
-	elif line.startswith('(x)'):
+	elif line.lower().startswith('(x)'):
 		label = line.replace('(x)', '').strip()  # remove radio symbol
 		return f'<div id="{qid}_{aid}" class="answer multiple-choice"><input type="radio" name="{qid}_radio" id="{qid}_{aid}_radio" value="{qid}_{aid}" checked><label for="{qid}_{aid}_radio" id="{qid}_{aid}_label">{label}</label></div>'
 	else:
@@ -88,7 +91,7 @@ def multiple_choice_answer(line: str, qid: str, count: int):
 def checkbox(block: str):
 	lines = block.split('\n')  # create array of lines
 	qid, title = q_head(lines[0])  # generate the qid (question id) and title
-	i = 1  # line counter
+	i = 1  # line counter, first line already done
 	descr = ''  # init
 	aid = 0  # init
 	answer_html = ''  # init
@@ -100,8 +103,9 @@ def checkbox(block: str):
 			# go to the next line:
 			i += 1
 			continue
-		elif descr_started:  # only if the construction of the description has started already and the line doesn't start with > (because of 'el'if)
+		elif descr_started: # only if the construction of the description has started already and the line doesn't start with > (because of 'el'if)
 			descr = q_description(descr)  # the description is done, so it will be generated
+			descr_started = False
 		if lines[i].startswith(('\t[', '\t\t')):  # checkbox or paragraph
 			answer_html += checkbox_answer(lines[i].strip(), qid, aid)  # add checkbox line to the options
 			aid += 1
@@ -126,6 +130,7 @@ def multiple_choice(block: str):
 			continue
 		elif descr_started:  # only if the construction of the description has started already and the line doesn't start with > (because of 'el'if)
 			descr = q_description(descr)  # the description is done, so it will be generated
+			descr_started = False
 		if lines[i].startswith(('\t(', '\t\t')):  # checkbox or paragraph
 			answer_html += multiple_choice_answer(lines[i].strip(), qid, aid)  # add checkbox line to the options
 			aid += 1
@@ -147,13 +152,12 @@ def text(block: str):
 			# go to the next line:
 			i += 1
 			continue
-		elif descr_started:  # only if the construction of the description has started already and the line doesn't start with > (because of 'el'if)
-			descr = q_description(descr)  # the description is done, so it will be generated
 		if not lines[i].startswith('\t>'):  # must be an option line
 			options.update(q_options(lines[i]))
 		i += 1
+	descr = q_description(descr)  # the description is done, so it will be generated # generate description
 	if options['type']:
-		type = options['type']
+		inp_type = options['type']
 	else:
-		type = 'text'
-	return f'<div id="{qid}" class="question text {type}"><h3 id="{qid}_title" class="question text {type} title">{title}</h3><div id="{qid}_description" class="question text {type} description">{descr}</div><input type="{type}" id="{qid}_input" class="answer text {type}" placeholder={options["placeholder"]}></input></div>'
+		inp_type = 'text'
+	return f'<div id="{qid}" class="question text {inp_type}"><h3 id="{qid}_title" class="question text {inp_type} title">{title}</h3><div id="{qid}_description" class="question text {inp_type} description">{descr}</div><input type="{inp_type}" id="{qid}_input" name="{qid}" class="answer text {inp_type}" placeholder="{options["placeholder"]}"></input></div>'

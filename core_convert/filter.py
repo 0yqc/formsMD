@@ -28,7 +28,7 @@ def file(file_path):
 			if not lines[n+1].startswith('\t'): # if the block does not continue
 				block_construction = False # stop the construction
 				lines[n] = block(block_str) # compile the block and write it all into the last line
-		except: # it's the last line, so it must be compiled one last time
+		except IndexError: # it's the last line, so it must be compiled one last time
 			block_construction = False # stop the construction
 			lines[n] = block(block_str) # compile the block
 	return ''.join(lines) # return everything at the end, joined together

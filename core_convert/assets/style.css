@@ -1,0 +1,115 @@
+:root {
+    --background: #000000;
+    --bg_form: #1f1f1faf;
+    --text: #ffffff;
+    --hover: #afafaf;
+    --accent: #7f003f;
+    --bg_img: url('../../../../../0y.site/media/background/main.png');
+
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background: var(--background);
+    color: var(--text);
+    text-align: justify;
+    background-image: var(--bg_img);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+a {
+    color: var(--text)
+}
+
+a:hover {
+    color: var(--hover)
+}
+
+form {
+    max-width: 1024px;
+    background: var(--bg_form);
+    backdrop-filter: blur(32px);
+    padding: 16px;
+    border-radius: 32px;
+    margin: auto;
+}
+
+input[type=radio] {
+    appearance: none;
+    width: 1.5em;
+    height: 1.5em;
+    border-radius: 50%;
+    border-style: solid;
+    border-color: var(--accent);
+    border-width: 2px;
+    margin-right: 8px;
+    position: relative;
+    top: 3px
+}
+
+input[type=radio]:hover {
+    background-color: #3f3f3f;
+}
+
+input[type=radio]:checked {
+    background-color: var(--accent);
+}
+
+input[type=checkbox] {
+    appearance: none;
+    width: 1.5em;
+    height: 1.5em;
+    border-radius: 2px;
+    border-style: solid;
+    border-color: var(--accent);
+    border-width: 2px;
+    margin-right: 8px;
+    position: relative;
+    top: 6px
+}
+
+input[type=checkbox]:hover {
+    background-color: #3f3f3f;
+}
+
+input[type=checkbox]:checked {
+    background-color: var(--accent);
+}
+
+input[type=text], input[type=email], input[type=number] {
+    width: 100%;
+    text-align: center;
+    color: var(--text);
+    background-color: var(--bg_form);
+    backdrop-filter: blur(32px);
+    padding: 8px;
+    border-style: none;
+    border-radius: 8px;
+    border-bottom-style: solid;
+    border-bottom-color: var(--background);
+    border-bottom-width: 4px;
+}
+
+input[type=text]:focus, input[type=email]:focus, input[type=number]:focus {
+    outline: none;
+    border-bottom-color: var(--accent);
+}
+
+input[type=submit], button {
+    width: 100%;
+    padding: 8px;
+    color: var(--text);
+    background-color: var(--bg_form);
+    backdrop-filter: blur(32px);
+    border-style: none;
+    border-radius: 8px;
+}
+
+input[type=submit]:hover, button:hover {
+    background-color: #000000;
+}

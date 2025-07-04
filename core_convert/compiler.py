@@ -43,10 +43,10 @@ def q_description(descr: str):
 
 
 def q_options(line: str):
-	options_re = re.findall('''([a-z]+)(=)([^,]+|'[^']*'|"[^"]*")''', line)  # finds all label=value
+	options_re = re.findall('''([a-z]+)(=)('[^']*'|"[^"]*"|[^,]+)''', line)  # finds all label=value
 	options = {}
 	for i in options_re:
-		options.update({str(i[0].strip('"\'')): str(i[2].strip('"\''))})  # update the dict with the new option, which will get quotes removed and turned into a string
+		options.update({str(i[0].strip('\'"')): str(i[2].strip('\'"'))})  # update the dict with the new option, which will get quotes removed and turned into a string
 	return options
 
 
@@ -156,8 +156,12 @@ def text(block: str):
 			options.update(q_options(lines[i]))
 		i += 1
 	descr = q_description(descr)  # the description is done, so it will be generated # generate description
-	if options['type']:
+	try:
 		inp_type = options['type']
-	else:
+	except KeyError:
 		inp_type = 'text'
-	return f'<div id="{qid}" class="question text {inp_type}"><h3 id="{qid}_title" class="question text {inp_type} title">{title}</h3><div id="{qid}_description" class="question text {inp_type} description">{descr}</div><input type="{inp_type}" id="{qid}_input" name="{qid}" class="answer text {inp_type}" placeholder="{options["placeholder"]}"></input></div>'
+	try:
+		placeholder = options['placeholder']
+	except KeyError:
+		placeholder = ''
+	return f'<div id="{qid}" class="question text {inp_type}"><h3 id="{qid}_title" class="question text {inp_type} title">{title}</h3><div id="{qid}_description" class="question text {inp_type} description">{descr}</div><input type="{inp_type}" id="{qid}_input" name="{qid}" class="answer text {inp_type}" placeholder="{placeholder}"></input></div>'

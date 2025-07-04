@@ -15,7 +15,7 @@ out_dir = args.output  # overwrite the default if it has been set in the args
 assets_path = args.assets  # overwrite the default if it has been set in the args
 
 converted = filter.file(inp_path)  # start the compiling (./filter.py)
-html = markdown.markdown(converted)
+html = markdown.markdown(converted, extensions = ['md_in_html'])
 html = f'''
 <!doctype html>
 <html>
@@ -33,7 +33,7 @@ html = f'''
 		<script src="./script.js"></script>
 	</body>
 </html>
-'''.strip()
+'''.strip() # remove leading/trailing \n
 
 with open(os.path.join(assets_path,'script.js'), 'r') as js:
 	txt = js.read()

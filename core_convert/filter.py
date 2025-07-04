@@ -38,6 +38,8 @@ def block(text: str): # block compiling logic
 		text = compiler.checkbox(text)
 	elif '\n\t()' in text or '\n\t( )' in text or '\n\t(x)' in text.lower(): # multiple choice question
 		text = compiler.multiple_choice(text)
+	elif 'type=area' in text:
+		text = compiler.area(text)
 	elif 'type=' in text:
 		text = compiler.text(text)
 	return text

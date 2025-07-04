@@ -47,10 +47,10 @@ All the following information is given voluntarily, but helps me further develop
 	[] sel-hosted: self-hosted: You don't need to rely on any online services, just your personal website
 
 ? best-feature-other: If your personal favorite feature wasn't listed above, please specify it here:
-	type=text
+	type=area,rows=2
 
 ? improve: If you could improve anything about fMD, what would it be?
-	type=text
+	type=area
 
 ---
 

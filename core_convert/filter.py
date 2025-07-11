@@ -1,4 +1,5 @@
-import compiler # local file to compile single blocks
+import compiler  # local file to compile single blocks
+
 
 def file(file_path):
 	"""
@@ -9,37 +10,45 @@ def file(file_path):
 	# clone all lines into a list
 	with open(file_path, 'r') as f:
 		lines = f.readlines()
-	block_construction = False # init
-	block_str = '' # init
-	for n, i in enumerate(lines): # n is a counter (0,1,2,...), i is the current line
-		if i.startswith('//'): # comment line
-			lines[n] = '' # clear the current line (comments won't be rendered)
+	block_construction = False  # init
+	block_str = ''  # init
+	g_options = {} # init
+	for n, i in enumerate(lines):  # n is a counter (0,1,2,...), i is the current line
+		if i.startswith('//'):  # comment line
+			lines[n] = ''  # clear the current line (comments won't be rendered)
 			continue
-		if i.startswith('?'): # a block starts
-			block_construction = True # indicator that the block is being constructed
-			block_str = i # add the first line of the block to the block string
-			lines[n] = '' # clear the current line
-		elif i.startswith('\t') and block_construction: # a block continues (only applicable if it's in construction)
-			block_str = block_str + i # append new lines to the block
-			lines[n] = '' # clear the current line
-		else: # if it's normal markdown no further processing should be done
+		if i.startswith('?'):  # a block starts
+			block_construction = True  # indicator that the block is being constructed
+			block_str = i  # add the first line of the block to the block string
+			lines[n] = ''  # clear the current line
+		elif i.startswith('\t') and block_construction:  # a block continues (only applicable if it's in construction)
+			block_str = block_str + i  # append new lines to the block
+			lines[n] = ''  # clear the current line
+		else:  # if it's normal markdown no further processing should be done
 			continue
-		try: # lines[n+1] would fail if it's the last line
-			if not lines[n+1].startswith('\t'): # if the block does not continue
-				block_construction = False # stop the construction
-				lines[n] = block(block_str) # compile the block and write it all into the last line
-		except IndexError: # it's the last line, so it must be compiled one last time
-			block_construction = False # stop the construction
-			lines[n] = block(block_str) # compile the block
-	return ''.join(lines) # return everything at the end, joined together
+		try:  # lines[n+1] would fail if it's the last line
+			if not lines[n + 1].startswith('\t'):  # if the block does not continue
+				block_construction = False  # stop the construction
+				lines[n], g_options_tmp = block(block_str)  # compile the block and write it all into the last line
+				g_options.update(g_options_tmp) # add potential new values
+		except IndexError:  # it's the last line, so it must be compiled one last time
+			block_construction = False  # stop the construction
+			lines[n], g_options_tmp = block(block_str)  # compile the block
+			g_options.update(g_options_tmp) # add potential new values
+	return ''.join(lines), g_options  # return everything at the end, joined together
 
-def block(text: str): # block compiling logic
-	if '\n\t[]' in text or '\n\t[ ]' in text or '\n\t[x]' in text.lower(): # checkbox question
+
+def block(text: str):  # block compiling logic
+	options = {}  # init
+	if '\n\t[]' in text or '\n\t[ ]' in text or '\n\t[x]' in text.lower():  # checkbox question
 		text = compiler.checkbox(text)
-	elif '\n\t()' in text or '\n\t( )' in text or '\n\t(x)' in text.lower(): # multiple choice question
+	elif '\n\t()' in text or '\n\t( )' in text or '\n\t(x)' in text.lower():  # multiple choice question
 		text = compiler.multiple_choice(text)
 	elif 'type=area' in text:
 		text = compiler.area(text)
 	elif 'type=' in text:
 		text = compiler.text(text)
-	return text
+	elif 'options' in text:
+		options = compiler.g_options(text)
+		text = ''
+	return text, options

@@ -5,7 +5,6 @@
     --hover: #afafaf;
     --accent: #7f003f;
     --bg_img: url('');
-
 }
 
 * {
@@ -93,6 +92,29 @@ input[type=text], input[type=email], input[type=number] {
     border-bottom-style: solid;
     border-bottom-color: var(--background);
     border-bottom-width: 4px;
+}
+
+div.answer.other p { /* p tag gets added by MD */
+    display: flex;
+    justify-content: space-between;
+}
+
+input[type=text].other {
+    flex-grow: 1;
+    flex-shrink: 0;
+    min-width: 128px;
+}
+
+div.answer.other label {
+    flex-grow: 1;
+    flex-shrink: 0;
+    margin-right: 8px;
+}
+
+div.answer.other input {
+    flex-shrink: 0;
+    flex-grow: 0;
+    top: 0;
 }
 
 input[type=text]:focus, input[type=email]:focus, input[type=number]:focus {

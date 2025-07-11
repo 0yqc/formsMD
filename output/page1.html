@@ -1,12 +1,12 @@
 <!doctype html>
-<html>
-	<head>
-		<title>fMD Form</title>
-		<link rel="stylesheet" href="./style.css">
-	</head>
-	<body>
-		<form id="page1_form">
-			<h1>fMD Survey</h1>
+	<html>
+		<head>
+			<title>fMD Form</title>
+			<link rel="stylesheet" href="./styles.css">
+		</head>
+		<body>
+			<form id="page1_form" action="https://formsubmit.co/0yqc@duck.com" method="POST">
+				<h1>fMD Survey</h1>
 <p>Welcome to our test survey, in this survey you will see the rendered HTML of a <a href="https://github.com/0yqc/formsMD/">fMD</a> document. A fMD document is short for a formsMarkdown document, which is an addition to Markdown done by <a href="https://github.com/0yqc/">0yqc</a>. In this addition you can just type questions by beginning a line with '?' followed by a still-readable syntax for defining questions. Although this was written for testing purposes, I appreciate responses to this, as it's also about further development of formsMD</p>
 <p>This survey will be about your usage of <em>fMD</em> and will only take less than 5 minutes.</p>
 <hr />
@@ -60,8 +60,8 @@ Please use the gender you identify with. This helps me understand what the avera
 <div class="answer multiple-choice" id="gender_non-binary">
 <p><input type="radio" name="gender_radio" id="gender_non-binary_radio" value="gender_non-binary"><label for="gender_non-binary_radio" id="gender_non-binary_label">Non-Binary</label></p>
 </div>
-<div class="answer multiple-choice" id="gender_other">
-<p><input type="radio" name="gender_radio" id="gender_other_radio" value="gender_other"><label for="gender_other_radio" id="gender_other_label">Other</label></p>
+<div class="answer multiple-choice other" id="gender_other">
+<p><input type="radio" name="gender_radio" id="gender_other_radio" value="gender_other"><label for="gender_other_radio" id="gender_other_label">Other, this:</label><input type="text" class="answer multiple-choice text other" id="gender_other_other" name="gender_other_other"></p>
 </div>
 </div>
 <div class="question text text" id="interests">
@@ -71,7 +71,8 @@ This helps me understand what the average userbase of this tool looks like.</p><
 <p><input type="text" id="interests_input" name="interests" class="answer text text" placeholder="e.g. coding, playing video games, reading, sports" value=""></input></div></p>
 <hr />
 <div class="question checkbox" id="best-feature">
-<p><h3 id="best-feature_title" class="question checkbox title">What would you say is the best feature of fMD?</h3><div id="best-feature_description" class="question checkbox description"></p>
+<p><h3 id="best-feature_title" class="question checkbox title">What would you say are the features of fMD most valuable to you?</h3><div id="best-feature_description" class="question checkbox description"><p>
+Please select all that apply.</p></p>
 </div>
 <div class="answer checkbox" id="best-feature_txt">
 <p><input type="checkbox" name="best-feature_txt" id="best-feature_txt_checkbox"></input><label for="best-feature_txt_checkbox" id="best-feature_txt_label">text-based: Write it in any text editor, compile it to CSS</label></p>
@@ -82,12 +83,18 @@ This helps me understand what the average userbase of this tool looks like.</p><
 <div class="answer checkbox" id="best-feature_open-source">
 <p><input type="checkbox" name="best-feature_open-source" id="best-feature_open-source_checkbox"></input><label for="best-feature_open-source_checkbox" id="best-feature_open-source_label">open-source: code viewable on <a href="https://github.com/0yqc/formsMD/">GitHub</a></label></p>
 </div>
-<div class="answer checkbox" id="best-feature_sel-hosted">
-<p><input type="checkbox" name="best-feature_sel-hosted" id="best-feature_sel-hosted_checkbox"></input><label for="best-feature_sel-hosted_checkbox" id="best-feature_sel-hosted_label">self-hosted: You don't need to rely on any online services, just your personal website</label></p>
+<div class="answer checkbox" id="best-feature_self-hosted">
+<p><input type="checkbox" name="best-feature_self-hosted" id="best-feature_self-hosted_checkbox"></input><label for="best-feature_self-hosted_checkbox" id="best-feature_self-hosted_label">self-hosted: You don't need to rely on any online services, just your personal website</label></p>
+</div>
+<div class="answer checkbox" id="best-feature_no-limits">
+<p><input type="checkbox" name="best-feature_no-limits" id="best-feature_no-limits_checkbox"></input><label for="best-feature_no-limits_checkbox" id="best-feature_no-limits_label">no limits: You don't have any limits, as you host in on your own</label></p>
+</div>
+<div class="answer checkbox other" id="best-feature_other">
+<p><input type="checkbox" name="best-feature_checkbox" id="best-feature_other_checkbox" value="best-feature_other"><label for="best-feature_other_checkbox" id="best-feature_other_label">Other, this:</label><input type="text" class="answer checkbox text other" id="best-feature_other_other" name="best-feature_other_other"></p>
 </div>
 </div>
 <div class="question text area textarea" id="best-feature-other">
-<p><h3 id="best-feature-other_title" class="question text area title">If your personal favorite feature wasn't listed above, please specify it here:</h3><div id="best-feature-other_description" class="question text area description"><p></p></p>
+<p><h3 id="best-feature-other_title" class="question text area title">If your personal favorite feature wasn't listed above, please add more details to it here:</h3><div id="best-feature-other_description" class="question text area description"><p></p></p>
 </div>
 <textarea id="best-feature-other_input" name="best-feature-other" rows="2" placeholder=""></textarea>
 </div>
@@ -98,15 +105,18 @@ This helps me understand what the average userbase of this tool looks like.</p><
 </div>
 <hr />
 <p>Thank you for taking part in our survey, if you have anything else to say, please drop it here:</p>
-<div class="question text text" id="other">
-<p><h3 id="other_title" class="question text text title"></h3><div id="other_description" class="question text text description"><p></p></p>
+<div class="question text area textarea" id="other">
+<p><h3 id="other_title" class="question text area title"></h3><div id="other_description" class="question text area description"><p></p></p>
 </div>
-<p><input type="text" id="other_input" name="other" class="answer text text" placeholder="" value=""></input></div></p>
-<p>To save your responses, you need to click the submit button.</p>
-			<p id="page1_submit">
-				<input type="submit" value="Submit Form">
-			</p>
-		</form>
-		<script src="./script.js"></script>
-	</body>
-</html>
+<textarea id="other_input" name="other" rows="4" placeholder=""></textarea>
+</div>
+<p>To save your responses, you need to click the Submit button.</p>
+				<input type="hidden" name="_next" value="https://github.com/0yqc/formsMD/">
+				<input type="hidden" name="_subject" value="fMD Test Form: New submission">
+				<div id="page1_submit">
+					<input type="submit" value="Submit Form">
+				</div>
+			</form>
+			<script src="./script.js"></script>
+		</body>
+	</html>

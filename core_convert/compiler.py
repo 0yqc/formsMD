@@ -14,11 +14,8 @@ def q_head(line: str):  #
 		qid = line.split(':')[0][
 			  1:].strip()  # everything until the first ':', cut off the first char (?), then strip (remove trailing/leading whitespaces)
 	else:  # an id needs to be generated
-		qid = re.sub('[^a-zA-Z\d-]', '-',
-					 title).lower()  # replace anything except alphanumeric chars and '-' to - and turn it lowercase
-		while '--' in qid:  # while there are double hyphens
-			qid.replace('--', '-')  # remove them (turn into 1)
-		# this way, even 3 hyphens get turned into 2 and then into 1
+		qid = re.sub('[^a-zA-Z\d-]', '-', title).lower()  # replace anything except alphanumeric chars and '-' to - and turn it lowercase
+		qid = re.sub('-+', '-', qid)  # replace any amount of consecutive hyphens with one
 		qid.strip('-')  # remove starting / trailing hyphens
 		# system to only use each qid once: (append numbers otherwise)
 		i = 0
@@ -42,8 +39,8 @@ def q_description(descr: str):
 	return descr
 
 
-def q_options(line: str):
-	options_re = re.findall('''([a-z]+)(=)('[^']*'|"[^"]*"|[^,]+)''', line)  # finds all label=value
+def options_compile(line: str):
+	options_re = re.findall('''([^,\n\t]+)(=)('[^']*'|"[^"]*"|[^,]+)''', line)  # finds all label=value
 	options = {}
 	for i in options_re:
 		options.update({str(i[0].strip('\'"')):str(i[2].strip('\'"'))})  # update the dict with the new option, which will get quotes removed and turned into a string
@@ -58,7 +55,14 @@ def checkbox_answer(line: str, qid: str, count: int):
 		line = line.split(']')[0] + ']' + ':'.join(line.split(':')[1:])  # remove id from line
 	else:
 		aid = count  # the nth option
-	if line.startswith(('[]', '[ ]')):  # empty checkbox
+	if aid == 'other':
+		if line.startswith(('[]', '[ ]')):
+			label = re.sub('\[ *\]', '', line).strip()  # remove checkbox symbol (with(-out) space(s) in between), striped
+			return f'<div id="{qid}_{aid}" class="answer checkbox other" markdown><input type="checkbox" name="{qid}_checkbox" id="{qid}_{aid}_checkbox" value="{qid}_{aid}"><label for="{qid}_{aid}_checkbox" id="{qid}_{aid}_label">{label}</label><input type="text" class="answer checkbox text other" id="{qid}_{aid}_other" name="{qid}_{aid}_other"></div>'
+		elif line.lower().startswith('[x]'):
+			label = line.replace('[x]', '').strip()  # get label text
+			return f'<div id="{qid}_{aid}" class="answer checkbox other" markdown><input type="checkbox" name="{qid}_checkbox" id="{qid}_{aid}_checkbox" value="{qid}_{aid}" checked><label for="{qid}_{aid}_checkbox" id="{qid}_{aid}_label">{label}</label><input type="text" class="answer checkbox text other" id="{qid}_{aid}_other" name="{qid}_{aid}_other"></div>'
+	elif line.startswith(('[]', '[ ]')):  # empty checkbox
 		label = re.sub('\[ *]', '', line).strip()  # remove checkbox symbol (with(-out) space(s) in between), striped
 		return f'<div id="{qid}_{aid}" class="answer checkbox" markdown><input type="checkbox" name="{qid}_{aid}" id="{qid}_{aid}_checkbox"></input><label for="{qid}_{aid}_checkbox" id="{qid}_{aid}_label">{label}</label></div>'
 	elif line.lower().startswith('[x]'):
@@ -75,7 +79,14 @@ def multiple_choice_answer(line: str, qid: str, count: int):
 		line = line.split(')')[0] + ')' + ':'.join(line.split(':')[1:])  # remove id from line
 	else:
 		aid = count  # the nth option
-	if line.startswith(('()', '( )')):  # unchecked radio select
+	if aid == 'other':
+		if line.startswith(('()', '( )')):
+			label = re.sub('\( *\)', '', line).strip()  # remove radio symbol (with(-out) space(s) in between), striped
+			return f'<div id="{qid}_{aid}" class="answer multiple-choice other" markdown><input type="radio" name="{qid}_radio" id="{qid}_{aid}_radio" value="{qid}_{aid}"><label for="{qid}_{aid}_radio" id="{qid}_{aid}_label">{label}</label><input type="text" class="answer multiple-choice text other" id="{qid}_{aid}_other" name="{qid}_{aid}_other"></div>'
+		elif line.lower().startswith('(x)'):
+			label = line.replace('(x)', '').strip()  # get label text
+			return f'<div id="{qid}_{aid}" class="answer multiple-choice other" markdown><input type="radio" name="{qid}_radio" id="{qid}_{aid}_radio" value="{qid}_{aid}" checked><label for="{qid}_{aid}_radio" id="{qid}_{aid}_label">{label}</label><input type="text" class="answer multiple-choice text other" id="{qid}_{aid}_other" name="{qid}_{aid}_other"></div>'
+	elif line.startswith(('()', '( )')):  # unchecked radio select
 		label = re.sub('\( *\)', '', line).strip()  # remove radio symbol (with(-out) space(s) in between), striped
 		return f'<div id="{qid}_{aid}" class="answer multiple-choice" markdown><input type="radio" name="{qid}_radio" id="{qid}_{aid}_radio" value="{qid}_{aid}"><label for="{qid}_{aid}_radio" id="{qid}_{aid}_label">{label}</label></div>'
 	elif line.lower().startswith('(x)'):
@@ -151,7 +162,7 @@ def text(block: str):
 			i += 1
 			continue
 		if not lines[i].startswith('\t>'):  # must be an option line
-			options.update(q_options(lines[i]))
+			options.update(options_compile(lines[i]))
 		i += 1
 	descr = q_description(descr)  # the description is done, so it will be generated # generate description
 	try:
@@ -182,7 +193,7 @@ def area(block: str):
 			i += 1
 			continue
 		if not lines[i].startswith('\t>'):  # must be an option line
-			options.update(q_options(lines[i]))
+			options.update(options_compile(lines[i]))
 		i += 1
 	descr = q_description(descr)  # the description is done, so it will be generated # generate description
 	try:
@@ -198,3 +209,11 @@ def area(block: str):
 	except KeyError:
 		rows = '4'
 	return f'<div id="{qid}" class="question text area textarea" markdown><h3 id="{qid}_title" class="question text area title">{title}</h3><div id="{qid}_description" class="question text area description">{descr}</div><textarea id="{qid}_input" name="{qid}" rows="{rows}" placeholder="{placeholder}">{value}</textarea></div>\n'
+
+
+def g_options(block: str):
+	option_lines = block.split('\n')[1:]  # line 1ff
+	options = {}
+	for i in option_lines:
+		options.update(options_compile(i))
+	return options

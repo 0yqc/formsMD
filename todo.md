@@ -1,0 +1,22 @@
+- Logic
+	- basic req/opt first **IMPORTANT**
+	- custom form validation
+		- pages system
+		- grayed out submit button
+- other integrations (custom back-end, ~~google firebase~~, supabase etc.)
+- popup trying to close tab
+	- browser storage/cookies for later completion **IMPORTANT**
+- matrix question
+- hidden fields
+	- url parameter
+- for questions missing label:
+	- add label tag around qtitle and descr
+- CSS rework
+	- improved mobile support
+	- Other, this behaving weirdly (BUG)
+- custom text for other:
+- wiki via mkdocs.org
+- filter.py rework
+	- until blank line instead of tab chars DONE
+    - DOCS REWORK **IMPORTNAT**
+- automatic line breaks in normal input fileds (possible?)

@@ -2,48 +2,40 @@ import compiler  # local file to compile single blocks
 
 
 def file(file_path):
-	"""
-	file is the path to the file
-
-	this function compiles .fmd files into HTML files and returns a string for further use.
-	"""
-	# clone all lines into a list
 	with open(file_path, 'r') as f:
 		lines = f.readlines()
-	block_construction = False  # init
-	block_str = ''  # init
-	g_options = {} # init
-	for n, i in enumerate(lines):  # n is a counter (0,1,2,...), i is the current line
-		if i.startswith('//'):  # comment line
-			lines[n] = ''  # clear the current line (comments won't be rendered)
+	options = {}
+	for i in range(len(lines)):
+		block_str = ''
+		if lines[i].startswith('\?'):
+			lines[i] = lines[i].removeprefix('\\')
 			continue
-		if i.startswith('?'):  # a block starts
-			block_construction = True  # indicator that the block is being constructed
-			block_str = i  # add the first line of the block to the block string
-			lines[n] = ''  # clear the current line
-		elif i.startswith('\t') and block_construction:  # a block continues (only applicable if it's in construction)
-			block_str = block_str + i  # append new lines to the block
-			lines[n] = ''  # clear the current line
-		else:  # if it's normal markdown no further processing should be done
-			continue
-		try:  # lines[n+1] would fail if it's the last line
-			if not lines[n + 1].startswith('\t'):  # if the block does not continue
-				block_construction = False  # stop the construction
-				lines[n], g_options_tmp = block(block_str)  # compile the block and write it all into the last line
-				g_options.update(g_options_tmp) # add potential new values
-		except IndexError:  # it's the last line, so it must be compiled one last time
-			block_construction = False  # stop the construction
-			lines[n], g_options_tmp = block(block_str)  # compile the block
-			g_options.update(g_options_tmp) # add potential new values
-	return ''.join(lines), g_options  # return everything at the end, joined together
+		elif lines[i].startswith('?'):
+			while lines[i].strip():
+				block_str += lines[i].strip() + '\n'
+				lines[i] = ''
+				i += 1
+				if i < len(lines):
+					continue
+				else:
+					i -= 1
+					break
+			lines[i], new_options = block(block_str.strip())
+			lines[i] = '\n\n' + lines[i] + '\n\n'
+			options.update(new_options)
+		else:
+			lines[i] = lines[i].strip()
+	return '\n'.join(lines), options
 
 
 def block(text: str):  # block compiling logic
 	options = {}  # init
-	if '\n\t[]' in text or '\n\t[ ]' in text or '\n\t[x]' in text.lower():  # checkbox question
+	if '\n[]' in text or '\n\t[ ]' in text or '\n\t[x]' in text.lower():  # checkbox question
 		text = compiler.checkbox(text)
-	elif '\n\t()' in text or '\n\t( )' in text or '\n\t(x)' in text.lower():  # multiple choice question
+	elif '\n()' in text or '\n\t( )' in text or '\n\t(x)' in text.lower():  # multiple choice question
 		text = compiler.multiple_choice(text)
+	elif '\n|' in text:
+		text = compiler.dropdown(text)
 	elif 'type=area' in text:
 		text = compiler.area(text)
 	elif 'type=' in text:

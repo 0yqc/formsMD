@@ -1,0 +1,31 @@
+<!doctype html>
+	<html>
+		<head>
+			<title>fMD Form</title>
+			<link rel="stylesheet" href="./styles.css">
+		</head>
+		<body>
+			<form id="page1_form" action="">
+				<h1>fMD Form - all elements</h1>
+<p><a href="https://markdown.org/">Markdown</a></p>
+<ul>
+<li><em>fully</em> rendered</li>
+</ul>
+<p>hr:</p>
+<hr />
+<div id="radio" class="question multiple-choice"><h3 id="radio_title" class="question multiple-choice title">Radio Select</h3><div id="radio_description" class="question multiple-choice description">
+description</div><div id="radio_a" class="answer multiple-choice"><input type="radio" name="radio_radio" id="radio_a_radio" value="a"><label for="radio_a_radio" id="radio_a_label">A</label></div><div id="radio_b" class="answer multiple-choice"><input type="radio" name="radio_radio" id="radio_b_radio" value="b" checked><label for="radio_b_radio" id="radio_b_label">B</label></div><div id="radio_c" class="answer multiple-choice"><input type="radio" name="radio_radio" id="radio_c_radio" value="c"><label for="radio_c_radio" id="radio_c_label">C</label></div><div id="radio_fake-paragraph" class="answer text"><input type="radio" name="radio_fake-paragraph" id="radio_fake-paragraph_radio" style="visibility:hidden;"><label id="radio_fake-paragraph_label">fake paragraph</label></div><div id="radio_other" class="answer multiple-choice other"><input type="radio" name="radio_radio" id="radio_other_radio" value="other"><label for="radio_other_radio" id="radio_other_label">Other:</label><input type="text" class="answer multiple-choice text other hidden" id="radio_other_other" name="radio_other_other"></div></div>
+
+<div id="checkbox" class="question checkbox"><h3 id="checkbox_title" class="question checkbox title">Checkbox</h3><div id="checkbox_description" class="question checkbox description"></div><div id="checkbox_d" class="answer checkbox"><input type="checkbox" name="checkbox_d" id="checkbox_d_checkbox"><label for="checkbox_d_checkbox" id="checkbox_d_label">D</label></div><div id="checkbox_e" class="answer checkbox"><input type="checkbox" name="checkbox_e" id="checkbox_e_checkbox" checked><label for="checkbox_e_checkbox" id="checkbox_e_label">E</label></div><div id="checkbox_f" class="answer checkbox"><input type="checkbox" name="checkbox_f" id="checkbox_f_checkbox" checked><label for="checkbox_f_checkbox" id="checkbox_f_label">F</label></div><div id="checkbox_other" class="answer checkbox other"><input type="checkbox" name="checkbox_checkbox" id="checkbox_other_checkbox" ><label for="checkbox_other_checkbox" id="checkbox_other_label">Other, please specify:</label><input type="text" class="answer checkbox text other hidden" id="checkbox_other_text" name="checkbox_other_text"></div></div>
+
+<div id="text" class="question text text"><h3 id="text_title" class="question text text title">Text</h3><div id="text_description" class="question text text description"></div><input type="text" id="text_input" name="text" class="answer text text" placeholder="Placeholder" value="" list="text_datalist"><datalist id="text_datalist" class="question text datalist"><option value="G"><option value="H"><option value="I"></datalist></div>
+
+<div id="area" class="question text area textarea"><h3 id="area_title" class="question text area title">textarea</h3><div id="area_description" class="question text area description"></div><textarea id="area_input" name="area" rows="4" placeholder="Placeholder"></textarea></div>
+
+<div id="dropdown" class="question dropdown"><h3 id="dropdown_title" class="question dropdown title">Dropdown</h3><div id="dropdown_description" class="question dropdown description"></div><select><option value="0" id="dropdown_0">J</option><option value="1" id="dropdown_1" selected>K</option><option value="2" id="dropdown_2">L</option></select></div>
+				<input type="submit" id="submit" value="Submit Form">
+			</form>
+			<script src="./mailto.js"></script>
+			<script src="./other.js"></script>
+		</body>
+	</html>

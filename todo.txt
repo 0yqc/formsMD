@@ -1,5 +1,0 @@
-- Other option (radio & checkbox) done
-	- logic for that (show dynamically)
-- Logic
-- general options (e.g. colors (CSS vars)
-- other integrations (custom back-end, google firebase, supabase etc.)

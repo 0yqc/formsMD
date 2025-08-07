@@ -1,156 +1,108 @@
-:root {
-    --background: #000000;
-    --bg_form: #1f1f1faf;
-    --text: #ffffff;
-    --hover: #afafaf;
-    --accent: #7f003f;
-    --bg_img: url('');
-}
-
 * {
-    box-sizing: border-box;
+	box-sizing: border-box;
 }
 
-body {
-    background: var(--background);
-    color: var(--text);
-    text-align: justify;
-    background-image: var(--bg_img);
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-attachment: fixed;
+:root {
+	--accent: #7f003f;
+
+	--img_bg: url('https://upload.wikimedia.org/wikipedia/commons/7/7d/WTB_20220723_Ulrichsberg_Aussichtsturm_Alpenblick_9792.jpg');
+	--color_bg: #000000;
+	--color_light_50: #7f7f7f;
+	--color_txt: #ffffff;
+	--color_txt_link: #afafaf;
+
+	--max-width_form: 1024px;
+	--min-width_form: 50%;
+	--padding_form: 16px;
+	--color_bg_form: #000000af;
+
+	--color_bg_input: #000000af;
+}
+
+.hidden {
+	visibility: hidden;
+}
+
+html {
+	color: var(--color_txt);
 }
 
 a {
-    color: var(--text)
+	color: inherit;
 }
 
 a:hover {
-    color: var(--hover)
+	color: var(--color_txt_link)
+}
+
+body {
+	background-color: var(--color_bg);
+	background-image: var(--img_bg);
+	background-size: cover;
+	background-attachment: fixed;
 }
 
 form {
-    max-width: 1024px;
-    background: var(--bg_form);
-    backdrop-filter: blur(32px);
-    padding: 16px;
-    border-radius: 32px;
-    margin: auto;
+	width: 100%;
+	max-width: var(--max-width_form);
+	min-width: var(--min-width_form);
+	margin: auto; /* center */
+	padding: var(--padding_form);
+	background-color: var(--color_bg_form);
+	border-radius: 32px;
 }
 
-input[type=radio] {
-    appearance: none;
-    width: 1.5em;
-    height: 1.5em;
-    border-radius: 50%;
-    border-style: solid;
-    border-color: var(--accent);
-    border-width: 2px;
-    margin-right: 8px;
-    position: relative;
-    top: 3px
+.question.description {
+	padding-left: 16px;
+	border-left-style: solid;
+	border-color: var(--color_light_50);
+	border-width: 4px;
 }
 
-input[type=radio]:hover {
-    background-color: #3f3f3f;
-}
-
-input[type=radio]:checked {
-    background-color: var(--accent);
-}
-
-input[type=checkbox] {
-    appearance: none;
-    width: 1.5em;
-    height: 1.5em;
-    border-radius: 2px;
-    border-style: solid;
-    border-color: var(--accent);
-    border-width: 2px;
-    margin-right: 8px;
-    position: relative;
-    top: 6px
-}
-
-input[type=checkbox]:hover {
-    background-color: #3f3f3f;
-}
-
-input[type=checkbox]:checked {
-    background-color: var(--accent);
-}
-
-input[type=text], input[type=email], input[type=number] {
-    width: 100%;
-    text-align: center;
-    color: var(--text);
-    background-color: var(--bg_form);
-    backdrop-filter: blur(32px);
-    padding: 8px;
-    border-style: none;
-    border-radius: 8px;
-    border-bottom-style: solid;
-    border-bottom-color: var(--background);
-    border-bottom-width: 4px;
-}
-
-div.answer.other p { /* p tag gets added by MD */
-    display: flex;
-    justify-content: space-between;
-}
-
-input[type=text].other {
-    flex-grow: 1;
-    flex-shrink: 0;
-    min-width: 128px;
-}
-
-div.answer.other label {
-    flex-grow: 1;
-    flex-shrink: 0;
-    margin-right: 8px;
-}
-
-div.answer.other input {
-    flex-shrink: 0;
-    flex-grow: 0;
-    top: 0;
-}
-
-input[type=text]:focus, input[type=email]:focus, input[type=number]:focus {
-    outline: none;
-    border-bottom-color: var(--accent);
+input, textarea, select {
+	width: calc(100% - 2*(8px));
+	margin: 8px;
+	padding: 16px;
+	border-radius: 12px;
+	background-color: var(--color_bg_input);
+	color: inherit;
+	text-align: center;
+	border-style: none;
+	accent-color: var(--accent);
 }
 
 textarea {
-    resize: vertical;
-    width: 100%;
-    color: var(--text);
-    background-color: var(--bg_form);
-    backdrop-filter: blur(32px);
-    padding: 8px;
-    border-style: none;
-    border-radius: 8px;
-    border-bottom-style: solid;
-    border-bottom-color: var(--background);
-    border-bottom-width: 4px;
+	text-align: initial;
+	resize: vertical;
 }
 
-textarea:focus {
-    outline: none;
-    border-bottom-color: var(--accent);
+input[type=radio], input[type=checkbox] {
+	width: 16px;
 }
 
-input[type=submit], button {
-    width: 100%;
-    padding: 8px;
-    color: var(--text);
-    background-color: var(--bg_form);
-    backdrop-filter: blur(32px);
-    border-style: none;
-    border-radius: 8px;
+.answer.checkbox label, .answer.multiple-choice label {
+	width: calc(100% - 16px - 2*(8px));
+	height: calc(1em + 2*(8px));
+	display: inline-block;
 }
 
-input[type=submit]:hover, button:hover {
-    background-color: #000000;
+.answer.other {
+	display: flex;
+	align-items: center;
+}
+
+.answer.other input[type=radio], .answer.other label {
+	flex-grow: 0;
+	flex-shrink: 0;
+	width: initial;
+	height: initial;
+}
+
+.answer.other input[type=text] {
+	flex-grow: 1;
+	flex-shrink: 1;
+	text-align: initial;
+	margin: initial;
+	padding: calc((1/2)*(16px));
+	border-radius: calc((1/2)*(12px));
 }

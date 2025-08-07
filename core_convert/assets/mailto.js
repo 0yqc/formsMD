@@ -2,7 +2,7 @@ document.getElementById('page1_form').addEventListener('submit', function (event
 	event.preventDefault() // prevent default form events
 	const formdata = new FormData(this) // get all the form data
 
-	link = 'mailto:0yqc@duck.com?subject=fMD Form Submission&body=You need to send this email for your result to count.' // base email link, fMD Form Submission gets replaced by Py processing
+	link = 'mailto:{__mail__}?subject={__subject__}&body=You need to send this email for your result to count.' // base email link, {__subject__} gets replaced by Py processing
 
 	for (const key of formdata.keys()) { // loop through the form data
 		if (formdata.get(key).toString().length > 0) { // only proceed if the value of a given key exists (is 1 or more chars long)
@@ -11,5 +11,5 @@ document.getElementById('page1_form').addEventListener('submit', function (event
 	}
 
 	window.location.href = link // open the contructed link
-	window.location.href =  // gets replaced by Py processing
+	window.location.href = {__url__} // gets replaced by Py processing
 })

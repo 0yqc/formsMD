@@ -1,70 +1,37 @@
-? options
-	submit_method=formsubmit,mail_address=0yqc@duck.com
-	redirect=https://github.com/0yqc/formsMD/
-	subject='fMD Test Form: New submission'
+# fMD Form - all elements
 
-# fMD Survey
+[Markdown](https://markdown.org/)
 
-Welcome to our test survey, in this survey you will see the rendered HTML of a [fMD](https://github.com/0yqc/formsMD/) document. A fMD document is short for a formsMarkdown document, which is an addition to Markdown done by [0yqc](https://github.com/0yqc/). In this addition you can just type questions by beginning a line with '?' followed by a still-readable syntax for defining questions. Although this was written for testing purposes, I appreciate responses to this, as it's also about further development of formsMD
+- *fully* rendered
 
-This survey will be about your usage of *fMD* and will only take less than 5 minutes.
+hr:
 
 ---
 
-First, if you want, you can leave your E-Mail address, so I can contact you about feedback done in this survey:
+? radio: Radio Select
+> description
+() A
+(x) B
+() C
+fake paragraph
+() other: Other:
 
-? email: Your E-Mail address:
-	type=email,placeholder='yourname@example.org'
-	> This question is optional.
+? checkbox: Checkbox
+[] D
+[x] E
+[x] F
+[] other: Other, please specify:
 
----
+? text: Text
+{type=text,placeholder=Placeholder}
+- G
+- H
+- I
 
-All the following information is given voluntarily, but helps me further develop this tool.
+? area: textarea
+{type=area,placeholder=Placeholder}
 
-? age: Your age:
-	> This question helps me understand what the average userbase of this tool looks like.
-	() 0-12: between 0 and 12 years old
-	() 13-18: between 13 and 18 years old
-	() 18-24: between 18 and 24 years old
-	() 25-30: between 25 and 30 years old
-	() 31-40: between 31 and 40 years old
-	() 41-50: between 41 and 50 years old
-	() 51-60: between 51 and 60 years old
-	() 60: over 60 years old
-
-? gender: Your gender:
-	> Please use the gender you identify with. This helps me understand what the average userbase of this tool looks like.
-	() female: Female (includes trans*-females)
-	() male: Male (includes trans*-males)
-	() non-binary: Non-Binary
-	() other: Other, this:
-
-? interests: Your interests:
-	type=text,placeholder='e.g. coding, playing video games, reading, sports'
-	> This helps me understand what the average userbase of this tool looks like.
-
----
-
-? best-feature: What would you say are the features of fMD most valuable to you?
-	> Please select all that apply.
-	[] txt: text-based: Write it in any text editor, compile it to CSS
-	[] md: MarkDown support: easily *format* text
-	[] open-source: open-source: code viewable on [GitHub](https://github.com/0yqc/formsMD/)
-	[] self-hosted: self-hosted: You don't need to rely on any online services, just your personal website
-	[] no-limits: no limits: You don't have any limits, as you host in on your own
-	[] other: Other, this:
-
-? best-feature-other: If your personal favorite feature wasn't listed above, please add more details to it here:
-	type=area,rows=2
-
-? improve: If you could improve anything about fMD, what would it be?
-	type=area
-
----
-
-Thank you for taking part in our survey, if you have anything else to say, please drop it here:
-
-? other:
-	type=area
-
-To save your responses, you need to click the Submit button.
+? dropdown: Dropdown
+|| J
+|x| K
+|| L

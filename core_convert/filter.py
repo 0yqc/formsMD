@@ -1,4 +1,5 @@
 import compiler  # local file to compile single blocks
+import re # regex filtering
 
 
 def file(file_path):
@@ -30,11 +31,11 @@ def file(file_path):
 
 def block(text: str):  # block compiling logic
 	options = {}  # init
-	if '\n[]' in text or '\n\t[ ]' in text or '\n\t[x]' in text.lower():  # checkbox question
+	if re.findall('\n\t*\[.?\]', text):  # checkbox question
 		text = compiler.checkbox(text)
-	elif '\n()' in text or '\n\t( )' in text or '\n\t(x)' in text.lower():  # multiple choice question
+	elif re.findall('\n\t*\(.?\)', text):  # multiple choice question
 		text = compiler.multiple_choice(text)
-	elif '\n|' in text:
+	elif re.findall('\n\t*\|', text):
 		text = compiler.dropdown(text)
 	elif 'type=area' in text:
 		text = compiler.area(text)

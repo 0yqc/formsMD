@@ -1,37 +1,23 @@
-# fMD Form - all elements
+# fMD Form
 
-[Markdown](https://markdown.org/)
+this is a *fMD* form to showcase the project [*formsMD*](https://summer.hackclub.com/projects/4270/) submitted to [Summer of Making](https://summer.hackclub.com/). This is just for testing purposes.
 
-- *fully* rendered
+? age: What is your age?
+{type=number}
 
-hr:
+? name: Your name (first and last):
+{type=text,placeholder='John Doe'}
 
----
+? radio: Select one option
+> You may only select one
+( ) 1: first option
+(x) 2: second option (middle always wins)
+( ) 3: third option
+( ) other: Some other thing:
 
-? radio: Radio Select
-> description
-() A
-(x) B
-() C
-fake paragraph
-() other: Other:
-
-? checkbox: Checkbox
-[] D
-[x] E
-[x] F
-[] other: Other, please specify:
-
-? text: Text
-{type=text,placeholder=Placeholder}
-- G
-- H
-- I
-
-? area: textarea
-{type=area,placeholder=Placeholder}
-
-? dropdown: Dropdown
-|| J
-|x| K
-|| L
+? check: Select multiple options
+> Select one or multiple as you wish
+[ ] a: A)
+[x] b: B)
+[ ] b1: B1)
+[x] other: Other, please specify:

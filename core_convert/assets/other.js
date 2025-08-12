@@ -1,17 +1,37 @@
-other_txts = document.querySelectorAll('div.answer.other')
-other_txts.forEach(init)
+other_input = document.querySelectorAll('div.answer.other')
+other_input.forEach(check_other_visible)
 
-async function init(item) {
-	check(item)
-	document.querySelector('form').addEventListener('change',function () {
-		check(item)
-	})
-}
+input = document.querySelectorAll('input, textarea, select')
 
-function check(item) {
+document.querySelector('form').addEventListener('change', function () {
+	// change is for checkbox, radio
+	other_input.forEach(check_other_visible)
+	input.forEach(save_input)
+})
+
+document.querySelector('form').addEventListener('input', function () {
+	// input is for text, textarea
+	input.forEach(save_input)
+})
+
+input.forEach(load_input)
+
+// FUNCTIONS
+
+function check_other_visible(item) {
 	if (item.querySelector('input[type=checkbox], input[type=radio]').checked) {
 		item.querySelector('input[type=text]').classList.remove('hidden')
 	} else {
 		item.querySelector('input[type=text]').classList.add('hidden')
+	}
+}
+
+function save_input(item) {
+	localStorage.setItem(item.id, item.value)
+}
+
+function load_input(item) {
+	if (localStorage.getItem(item.id)) {
+		item.value = localStorage.getItem(item.id)
 	}
 }

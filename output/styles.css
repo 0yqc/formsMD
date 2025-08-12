@@ -5,8 +5,8 @@
 :root {
 	--accent: #7f003f;
 
-	--img_bg: url('https://upload.wikimedia.org/wikipedia/commons/7/7d/WTB_20220723_Ulrichsberg_Aussichtsturm_Alpenblick_9792.jpg');
-	--color_bg: #000000;
+	--img_bg: none;
+	--color_bg: #404040;
 	--color_light_50: #7f7f7f;
 	--color_txt: #ffffff;
 	--color_txt_link: #afafaf;

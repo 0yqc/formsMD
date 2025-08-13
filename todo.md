@@ -4,8 +4,6 @@
 		- pages system
 		- grayed out submit button
 - other integrations (custom back-end, ~~google firebase~~, supabase etc.)
-- popup trying to close tab
-	- browser storage/cookies for later completion **IMPORTANT**
 - matrix question
 - hidden fields
 	- url parameter

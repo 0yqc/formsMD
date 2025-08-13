@@ -77,11 +77,11 @@ def checkbox_answer(line: str, qid: str):
 		if line.startswith(('[]', '[ ]')):
 			label = re.sub('\[ *]', '', line).strip()  # remove checkbox symbol (with(-out) space(s) in between), striped
 			label = md.markdown(label).removeprefix('<p>').removesuffix('</p>')
-			return f'<div id="{qid}_{aid}" class="answer checkbox other"><input type="checkbox" name="{qid}_checkbox" id="{qid}_{aid}_checkbox" ><label for="{qid}_{aid}_checkbox" id="{qid}_{aid}_label">{label}</label><input type="text" class="answer checkbox text other hidden" id="{qid}_{aid}_text" name="{qid}_{aid}_text"></div>'
+			return f'<div id="{qid}_{aid}" class="answer checkbox other"><input type="checkbox" name="{qid}_checkbox" id="{qid}_{aid}_checkbox" ><label for="{qid}_{aid}_checkbox" id="{qid}_{aid}_label">{label}</label><input type="text" class="answer checkbox text other" id="{qid}_{aid}_text" name="{qid}_{aid}_text"></div>'
 		elif line.lower().startswith('[x]'):
 			label = line.replace('[x]', '').strip()  # get label text
 			label = md.markdown(label).removeprefix('<p>').removesuffix('</p>')
-			return f'<div id="{qid}_{aid}" class="answer checkbox other"><input type="checkbox" name="{qid}_checkbox" id="{qid}_{aid}_checkbox" checked><label for="{qid}_{aid}_checkbox" id="{qid}_{aid}_label">{label}</label><input type="text" class="answer checkbox text other hidden" id="{qid}_{aid}_text" name="{qid}_{aid}_text"></div>'
+			return f'<div id="{qid}_{aid}" class="answer checkbox other"><input type="checkbox" name="{qid}_checkbox" id="{qid}_{aid}_checkbox" checked><label for="{qid}_{aid}_checkbox" id="{qid}_{aid}_label">{label}</label><input type="text" class="answer checkbox text other" id="{qid}_{aid}_text" name="{qid}_{aid}_text"></div>'
 	elif line.startswith(('[]', '[ ]')):  # empty checkbox
 		label = re.sub('\[ *]', '', line).strip()  # remove checkbox symbol (with(-out) space(s) in between), striped
 		label = md.markdown(label).removeprefix('<p>').removesuffix('</p>')
@@ -120,11 +120,11 @@ def multiple_choice_answer(line: str, qid: str):
 		if line.startswith(('()', '( )')):
 			label = re.sub('\( *\)', '', line).strip()  # remove radio symbol (with(-out) space(s) in between), striped
 			label = md.markdown(label).removeprefix('<p>').removesuffix('</p>')
-			return f'<div id="{qid}_{aid}" class="answer multiple-choice other"><input type="radio" name="{qid}_radio" id="{qid}_{aid}_radio" value="{aid}"><label for="{qid}_{aid}_radio" id="{qid}_{aid}_label">{label}</label><input type="text" class="answer multiple-choice text other hidden" id="{qid}_{aid}_other" name="{qid}_{aid}_other"></div>'
+			return f'<div id="{qid}_{aid}" class="answer multiple-choice other"><input type="radio" name="{qid}_radio" id="{qid}_{aid}_radio" value="{aid}"><label for="{qid}_{aid}_radio" id="{qid}_{aid}_label">{label}</label><input type="text" class="answer multiple-choice text other" id="{qid}_{aid}_other" name="{qid}_{aid}_other"></div>'
 		elif line.lower().startswith('(x)'):
 			label = line.replace('(x)', '').strip()  # get label text
 			label = md.markdown(label).removeprefix('<p>').removesuffix('</p>')
-			return f'<div id="{qid}_{aid}" class="answer multiple-choice other"><input type="radio" name="{qid}_radio" id="{qid}_{aid}_radio" value="{aid}" checked><label for="{qid}_{aid}_radio" id="{qid}_{aid}_label">{label}</label><input type="text" class="answer multiple-choice text other hidden" id="{qid}_{aid}_other" name="{qid}_{aid}_other"></div>'
+			return f'<div id="{qid}_{aid}" class="answer multiple-choice other"><input type="radio" name="{qid}_radio" id="{qid}_{aid}_radio" value="{aid}" checked><label for="{qid}_{aid}_radio" id="{qid}_{aid}_label">{label}</label><input type="text" class="answer multiple-choice text other" id="{qid}_{aid}_other" name="{qid}_{aid}_other"></div>'
 	elif line.startswith(('()', '( )')):  # unchecked radio select
 		label = re.sub('\( *\)', '', line).strip()  # remove radio symbol (with(-out) space(s) in between), striped
 		label = md.markdown(label).removeprefix('<p>').removesuffix('</p>')

@@ -1,4 +1,4 @@
-other_input = document.querySelectorAll('div.answer.other')
+other_input = document.querySelectorAll('div.answer.other') // dynamically hide other answer texts
 other_input.forEach(check_other_visible)
 
 input = document.querySelectorAll('input, textarea, select')
@@ -20,9 +20,9 @@ input.forEach(load_input)
 
 function check_other_visible(item) {
 	if (item.querySelector('input[type=checkbox], input[type=radio]').checked) {
-		item.querySelector('input[type=text]').classList.remove('hidden')
+		item.querySelector('input[type=text]').removeAttribute('disabled')
 	} else {
-		item.querySelector('input[type=text]').classList.add('hidden')
+		item.querySelector('input[type=text]').setAttribute('disabled','true')
 	}
 }
 

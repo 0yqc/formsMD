@@ -1,20 +1,23 @@
 other_input = document.querySelectorAll('div.answer.other') // dynamically hide other answer texts
-other_input.forEach(check_other_visible)
+other_input.forEach(check_other_visible) // check if they should be visible or not
 
-input = document.querySelectorAll('input, textarea, select')
+input_elements = document.querySelectorAll('input, textarea, select') // auto-save
+input_elements.forEach(load_input) // re-load saved input fields
+
+textarea_elements = document.querySelectorAll('textarea') // auto-expand
+textarea_elements.forEach(expand_textarea)
 
 document.querySelector('form').addEventListener('change', function () {
 	// change is for checkbox, radio
-	other_input.forEach(check_other_visible)
-	input.forEach(save_input)
+	other_input.forEach(check_other_visible) // dynamically hide other answer texts
+	input_elements.forEach(save_input)
 })
 
 document.querySelector('form').addEventListener('input', function () {
 	// input is for text, textarea
-	input.forEach(save_input)
+	input_elements.forEach(save_input)
+	textarea_elements.forEach(expand_textarea)
 })
-
-input.forEach(load_input)
 
 // FUNCTIONS
 
@@ -34,4 +37,9 @@ function load_input(item) {
 	if (localStorage.getItem(item.id)) {
 		item.value = localStorage.getItem(item.id)
 	}
+}
+
+function expand_textarea(item) {
+	console.log('Hi')
+	item.style.height = item.scrollHeight + 'px'
 }

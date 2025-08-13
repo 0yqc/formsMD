@@ -14,7 +14,4 @@
 	- Other, this behaving weirdly (BUG)
 - custom text for other:
 - wiki via mkdocs.org
-- filter.py rework
-	- until blank line instead of tab chars DONE
-    - DOCS REWORK **IMPORTNAT**
-- automatic line breaks in normal input fileds (possible?)
+- automatic line breaks in normal input fields (possible?)

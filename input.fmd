@@ -21,3 +21,7 @@ this is a *fMD* form to showcase the project [*formsMD*](https://summer.hackclub
 [x] b: B)
 [ ] b1: B1)
 [x] other: Other, please specify:
+
+? other: Do you have anything else to say?
+> Anything, just type it in. Not required, no maximum length.
+{type=area,placeholder='Ideas, Suggestions, Bugs, How your day was today, etc.'}

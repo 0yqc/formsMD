@@ -3,15 +3,12 @@
 	- custom form validation
 		- pages system
 		- grayed out submit button
-- other integrations (custom back-end, ~~google firebase~~, supabase etc.)
-- matrix question
+    - conditional IF THEN, etc.
+- matrix question DONE
+	- documentation
 - hidden fields
 	- url parameter
-- for questions missing label:
-	- add label tag around qtitle and descr
-- CSS rework
-	- improved mobile support
-	- Other, this behaving weirdly (BUG)
-- custom text for other:
 - wiki via mkdocs.org
-- automatic line breaks in normal input fields (possible?)
+- CSS mobile suport **IMPORTANT**
+
+- **BUG** auto-save of checkbox, radio broken

@@ -40,6 +40,5 @@ function load_input(item) {
 }
 
 function expand_textarea(item) {
-	console.log('Hi')
 	item.style.height = item.scrollHeight + 'px'
 }

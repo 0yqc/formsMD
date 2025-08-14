@@ -1,8 +1,5 @@
-* {
-	box-sizing: border-box;
-}
-
 :root {
+	/* CHANGE COLORS & OTHERS HERE */
 	--accent: #7f003f;
 
 	--img_bg: none;
@@ -11,12 +8,18 @@
 	--color_txt: #ffffff;
 	--color_txt_link: #afafaf;
 
-	--max-width_form: 1024px;
+	--max-width_form: 96rem;
 	--min-width_form: 50%;
-	--padding_form: 16px;
+	--padding_form: 2rem;
 	--color_bg_form: #202020af;
 
 	--color_bg_input: #000000af;
+}
+
+/* ADVANCED CSS EDIT */
+
+* {
+	box-sizing: border-box;
 }
 
 .hidden {
@@ -105,4 +108,8 @@ input[type=radio], input[type=checkbox] {
 	margin: initial;
 	padding: calc((1/2)*(16px));
 	border-radius: calc((1/2)*(12px));
+}
+
+.question.matrix thead td {
+	text-align: center;
 }

@@ -37,6 +37,8 @@ def block(text: str):  # block compiling logic
 		text = compiler.multiple_choice(text)
 	elif re.findall('\n\t*\|', text):
 		text = compiler.dropdown(text)
+	elif re.findall('\n\t*\*', text):
+		text = compiler.matrix(text)
 	elif 'type=area' in text:
 		text = compiler.area(text)
 	elif 'type=' in text:

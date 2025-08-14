@@ -22,6 +22,13 @@ this is a *fMD* form to showcase the project [*formsMD*](https://summer.hackclub
 [ ] b1: B1)
 [x] other: Other, please specify:
 
+? matrix: Please rate *fMD* in the following categories:
+{min=0,max=4}
+> 0 is the worst and 4 the best, 2 is exactly the middle
+* user-friendly: user-friendliness
+* features: feature-richness
+* dev: dev-niceness
+
 ? other: Do you have anything else to say?
 > Anything, just type it in. Not required, no maximum length.
 {type=area,placeholder='Ideas, Suggestions, Bugs, How your day was today, etc.'}

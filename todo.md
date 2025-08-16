@@ -2,13 +2,33 @@
 	- basic req/opt first **IMPORTANT**
 	- custom form validation
 		- pages system
+			- page indicator
 		- grayed out submit button
-    - conditional IF THEN, etc.
+		- more options (min/max for numbers, length of text, etc.)
+	- conditional IF THEN, etc.
 - matrix question DONE
 	- documentation
 - hidden fields
 	- url parameter
 - wiki via mkdocs.org
-- CSS mobile suport **IMPORTANT**
+- CSS mobile support **IMPORTANT**
+- matrix for every input
+- checkbox matrix
+	- better syntax for this and normal matrix
+		- matrix for everything
+- direct linear scale
+	- different icons (stars, etc.)
+	- range without specific points
+- ordering question / ranking
+- file upload
+	- specify accept types
+- color
+- captcha services
+	- friendly captcha
+	- hcaptcha
+- location (OpenStreetMap)
+
+- multi dropdown
+	- normal html dropdown, each select just adds/ermoves it from a list shown in the input field
 
 - **BUG** auto-save of checkbox, radio broken

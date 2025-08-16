@@ -159,7 +159,7 @@ def matrix_answer(label: str, qid: str, min: int, max: int):
 		else:
 			used_aid.append(qid)
 	answer_html = f'<tr id="{qid}_{aid}" class="answer matrix"><td id="{qid}_{aid}_label">{label}</td>'
-	for i in range(max-min+1): # both are inclusive
+	for i in range(max - min + 1):  # both are inclusive
 		n = min + i
 		answer_html += f'<td><input type="radio" name="{qid}_{aid}_radio" value="{n}" id="{qid}_{aid}_radio_{n}" aria-label="{n}"></input></td>'
 	answer_html += f'</tr>'
@@ -284,12 +284,11 @@ def matrix(block: str):
 				pass
 		i += 1
 	html = f'<div id="{qid}" class="question matrix"><h3 id="{qid}_title" class="question matrix title">{title}</h3><div id="{qid}_description" class="question matrix description">{descr}</div><table><thead><tr><td></td>'
-	for i in range(max-min+1): # both inclusive
+	for i in range(max - min + 1):  # both inclusive
 		n = min + i
 		html += f'<td>{n}</td>'
 	html += f'</tr></thead><tbody>{answer_html}</tbody></table></div>'
 	return html
-
 
 
 def dropdown(block: str):

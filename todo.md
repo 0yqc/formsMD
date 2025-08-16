@@ -30,5 +30,3 @@
 
 - multi dropdown
 	- normal html dropdown, each select just adds/ermoves it from a list shown in the input field
-
-- **BUG** auto-save of checkbox, radio broken

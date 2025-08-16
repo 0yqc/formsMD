@@ -25,17 +25,25 @@ function check_other_visible(item) {
 	if (item.querySelector('input[type=checkbox], input[type=radio]').checked) {
 		item.querySelector('input[type=text]').removeAttribute('disabled')
 	} else {
-		item.querySelector('input[type=text]').setAttribute('disabled','true')
+		item.querySelector('input[type=text]').setAttribute('disabled', 'true')
 	}
 }
 
 function save_input(item) {
-	localStorage.setItem(item.id, item.value)
+	if (item.type === 'radio' || item.type === 'checkbox') {
+		localStorage.setItem(item.id, item.checked)
+	} else {
+		localStorage.setItem(item.id, item.value)
+	}
 }
 
 function load_input(item) {
 	if (localStorage.getItem(item.id)) {
-		item.value = localStorage.getItem(item.id)
+		if (item.type === 'radio' || item.type === 'checkbox') {
+			item.checked = localStorage.getItem(item.id)
+		} else {
+			item.value = localStorage.getItem(item.id)
+		}
 	}
 }
 

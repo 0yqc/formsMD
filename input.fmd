@@ -3,7 +3,14 @@
 this is a *fMD* form to showcase the project [*formsMD*](https://summer.hackclub.com/projects/4270/) submitted to [Summer of Making](https://summer.hackclub.com/). This is just for testing purposes.
 
 ? age: What is your age?
-{type=number}
+|| under 6
+|| 6 to 12
+|| 13 to 16
+|| 17 to 23
+|| 24 to 29
+|| 30 to 39
+|| 40 to 49
+|| over 50
 
 ? name: Your name (first and last):
 {type=text,placeholder='John Doe'}

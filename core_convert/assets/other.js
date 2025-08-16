@@ -40,7 +40,7 @@ function save_input(item) {
 function load_input(item) {
 	if (localStorage.getItem(item.id)) {
 		if (item.type === 'radio' || item.type === 'checkbox') {
-			item.checked = localStorage.getItem(item.id)
+			item.checked = (localStorage.getItem(item.id) === 'true')
 		} else {
 			item.value = localStorage.getItem(item.id)
 		}

@@ -25,24 +25,24 @@ def file(file_path):
 			lines[i] = '\n\n' + lines[i] + '\n\n'
 			options.update(new_options)
 		else:
-			lines[i] = lines[i].strip()
-	return '\n'.join(lines), options
+			lines[i] = lines[i]
+	return ''.join(lines), options
 
 
 def block(text: str):  # block compiling logic
 	options = {}  # init
-	if re.findall('\n\t*\[.?\]', text):  # checkbox question
+	if re.findall('\n\[.?]', text):  # checkbox question
 		text = compiler.checkbox(text)
-	elif re.findall('\n\t*\(.?\)', text):  # multiple choice question
+	elif re.findall('\n\(.?\)', text):  # multiple choice question
 		text = compiler.multiple_choice(text)
-	elif re.findall('\n\t*\|', text):
+	elif '\n|' in text:
 		text = compiler.dropdown(text)
-	elif re.findall('\n\t*\*', text):
+	elif 'type=matrix_' in text:
 		text = compiler.matrix(text)
 	elif 'type=area' in text:
 		text = compiler.area(text)
 	elif 'type=' in text:
-		text = compiler.text(text)
+		text = compiler.input(text)
 	elif 'options' in text:
 		options = compiler.g_options(text)
 		text = ''

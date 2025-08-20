@@ -55,6 +55,14 @@ form {
 	border-radius: 32px;
 }
 
+.answer.checkbox label, .answer.radio label {
+	margin-left: 2em;
+}
+
+.answer.checkbox input, .answer.radio input {
+	position: absolute;
+}
+
 .question.description {
 	padding-left: 16px;
 	border-left-style: solid;
@@ -63,7 +71,7 @@ form {
 }
 
 input, textarea, select {
-	width: calc(100% - 2*(8px));
+	width: calc(100% - 2 * (8px));
 	margin: 8px;
 	padding: 16px;
 	border-radius: 12px;
@@ -84,8 +92,8 @@ input[type=radio], input[type=checkbox] {
 }
 
 .answer.checkbox label, .answer.multiple-choice label {
-	width: calc(100% - 16px - 2*(8px));
-	height: calc(1em + 2*(8px));
+	width: calc(100% - 16px - 2 * (8px));
+	height: calc(1em + 2 * (8px));
 	display: inline-block;
 }
 
@@ -106,8 +114,8 @@ input[type=radio], input[type=checkbox] {
 	flex-shrink: 1;
 	text-align: initial;
 	margin: initial;
-	padding: calc((1/2)*(16px));
-	border-radius: calc((1/2)*(12px));
+	padding: calc((1 / 2) * (16px));
+	border-radius: calc((1 / 2) * (12px));
 }
 
 .question.matrix thead td {

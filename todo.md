@@ -1,13 +1,14 @@
 - Logic
-	- basic req/opt first **IMPORTANT**
+	- basic req/opt first **IMPORTANT** (options req/required and opt/optional)
+		- if there is no = value, interpret as true
+		- optional=true is equal to required=false
+        - global default for form
 	- custom form validation
 		- pages system
 			- page indicator
 		- grayed out submit button
 		- more options (min/max for numbers, length of text, etc.)
 	- conditional IF THEN, etc.
-- matrix question DONE
-	- documentation
 - hidden fields
 	- url parameter
 - wiki via mkdocs.org
@@ -21,12 +22,16 @@
 	- range without specific points
 - ordering question / ranking
 - file upload
-	- specify accept types
+	- specify accept types (options)
 - color
 - captcha services
 	- friendly captcha
 	- hcaptcha
 - location (OpenStreetMap)
 
+- better file upload support
+
 - multi dropdown
-	- normal html dropdown, each select just adds/ermoves it from a list shown in the input field
+	- normal html dropdown, each select just adds/removes it from a list shown in the input field
+
+- FULL DOCS REWORK

@@ -59,7 +59,7 @@ if method == 'formsubmit' or method == 'url':
 			<link rel="stylesheet" href="./styles.css">
 		</head>
 		<body>
-			<form id="page1_form" action="{action_url}" method="POST">
+			<form id="page1_form" action="{action_url}" method="POST" enctype=multipart/form-data>
 				{html}
 				<input type="hidden" name="_next" value="{redirect}">
 				<input type="hidden" name="_subject" value="{subject}">

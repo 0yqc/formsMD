@@ -1,6 +1,5 @@
 import re  # regex
 import markdown as md  # markdown processing, sudo apt install python-markdown-doc
-from evdev.genecodes import header
 
 # --- VARS --- #
 

@@ -42,7 +42,7 @@ def block(text: str):  # block compiling logic
 	elif 'type=area' in text:
 		text = compiler.area(text)
 	elif 'type=' in text:
-		text = compiler.text(text)
+		text = compiler.input_other(text)
 	elif 'options' in text:
 		options = compiler.g_options(text)
 		text = ''

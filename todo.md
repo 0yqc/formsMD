@@ -12,7 +12,6 @@
 - hidden fields
 	- url parameter
 - wiki via mkdocs.org
-- CSS mobile support **IMPORTANT**
 - matrix for every input
 - checkbox matrix
 	- better syntax for this and normal matrix
@@ -30,8 +29,9 @@
 - location (OpenStreetMap)
 
 - better file upload support
+- question groups (fieldsets?)
 
 - multi dropdown
 	- normal html dropdown, each select just adds/removes it from a list shown in the input field
 
-- FULL DOCS REWORK
+- FULL DOCS REWORK

@@ -21,7 +21,7 @@ def file(file_path):
 				else:
 					i -= 1
 					break
-			lines[i], new_options = block(block_str.strip())
+			lines[i], new_options = block(block_str.strip(),options)
 			lines[i] = '\n\n' + lines[i] + '\n\n'
 			options.update(new_options)
 		else:
@@ -29,21 +29,21 @@ def file(file_path):
 	return ''.join(lines), options
 
 
-def block(text: str):  # block compiling logic
-	options = {}  # init
+def block(text: str, options: dict):  # block compiling logic
+	new_options = {}  # init
 	if re.findall('\n\[.?]', text):  # checkbox question
-		text = compiler.checkbox(text)
+		text = compiler.checkbox(text, options)
 	elif re.findall('\n\(.?\)', text):  # multiple choice question
-		text = compiler.multiple_choice(text)
+		text = compiler.radio(text, options)
 	elif '\n|' in text:
-		text = compiler.dropdown(text)
+		text = compiler.dropdown(text, options)
 	elif 'type=matrix_' in text:
-		text = compiler.matrix(text)
+		text = compiler.matrix(text, options)
 	elif 'type=area' in text:
-		text = compiler.area(text)
+		text = compiler.area(text, options)
 	elif 'type=' in text:
-		text = compiler.input_other(text)
+		text = compiler.input_other(text, options)
 	elif 'options' in text:
-		options = compiler.g_options(text)
+		new_options = compiler.global_options(text)
 		text = ''
-	return text, options
+	return text, new_options

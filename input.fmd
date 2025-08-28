@@ -1,0 +1,9 @@
+? options
+{lang:en,req:false}
+
+? radio
+	{req:true}
+	() option 1
+	fake
+	(x) option 2
+	() {id:other} Other, this:

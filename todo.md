@@ -35,3 +35,8 @@
 	- normal html dropdown, each select just adds/removes it from a list shown in the input field
 
 - FULL DOCS REWORK
+
+# BUGS
+
+- empty line in options_compile
+- make radio answer compile less repetitive code

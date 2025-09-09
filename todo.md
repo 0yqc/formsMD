@@ -1,13 +1,8 @@
 - Logic
-	- basic req/opt first **IMPORTANT** (options req/required and opt/optional)
-		- if there is no = value, interpret as true
-		- optional=true is equal to required=false
-        - global default for form
-	- custom form validation
-		- pages system
-			- page indicator
-		- grayed out submit button
-		- more options (min/max for numbers, length of text, etc.)
+	- pages system
+		- page indicator
+	- grayed out submit button
+	- use JS & CSS accessing built-in validations
 	- conditional IF THEN, etc.
 - hidden fields
 	- url parameter
@@ -35,6 +30,13 @@
 	- normal html dropdown, each select just adds/removes it from a list shown in the input field
 
 - FULL DOCS REWORK
+
+- every option for inputs just gets added to the input
+    - special for req/opt
+    - sepcial for max/min (num) & maxlength/minlenghth (text)
+        - live
+
+- email defualt to custom pattern (no just tld domains allowed)
 
 # BUGS
 

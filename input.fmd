@@ -1,9 +1,30 @@
 ? options
 {lang:en,req:false}
 
-? radio
-	{req:true}
-	() option 1
-	fake
-	(x) option 2
-	() {id:other} Other, this:
+? What is your true, inner age?
+> This question means what you feel like your age is.
+>
+> You can answer with whatever option you want, however this question *is* required.
+() 0 to 3
+() 4 to 6
+() 7 to 10
+() 11 to 14
+() 15 to 18
+() 19 to 25
+() 26 to 30
+() 31 to 35
+() 36 to 40
+() 41 to 50
+() 51 to 60
+() 61 to 70
+() 71 to 80
+() 81 to 90
+() 91 to 100
+() 101 to 120
+() 121 to 150
+() 151 to 200
+() 201 to 300
+() 301 to 500
+() 501 to 1000
+() 1000+
+() {id='other'} Exactly this:

@@ -36,9 +36,9 @@ def compile_options(block: str):
 	return options
 
 
-def gen_id(title: str, unique = True, unique_str = None):
-	title = title.lower()
-	gid = re.sub(r'[^a-z0-9-]', '-', title)
+def gen_id(label: str, unique = True, unique_str = None):
+	label = label.lower()
+	gid = re.sub(r'[^a-z0-9-]', '-', label)
 	gid = re.sub('-+', '-', gid)
 	gid = re.sub(r'^-+|-+$', '', gid)
 	if unique:
@@ -98,13 +98,12 @@ def radio_answer(block: str, req: str, qid: str):
 	for line in block:
 		if line.startswith('()') or line.startswith('( )'):
 			line = line.removeprefix('()').removeprefix('( )').strip()
-			type = 'unchecked'
+			anstype = 'unchecked'
 		elif line.lower().startswith('(x)'):
 			line = line.removeprefix('(x)').removeprefix('(X)').strip()
-			type = 'checked'
+			anstype = 'checked'
 		else:
-			type = 'hidden'
-
+			anstype = 'hidden'
 		if '{' in line and '}' in line:
 			split = line.replace('}', '{').split('{')
 			options = compile_options(split[1])
@@ -113,12 +112,21 @@ def radio_answer(block: str, req: str, qid: str):
 			aid = options['id']
 		else:
 			aid = gen_id(line, True, f'local_{qid}')
-		req = options.get('req')
-		line = md.markdown(line)
+		req = True if options.get('req') == 'true' else req
+		other = True if options.get('id') == 'other' else False
+		line = md.markdown(line).replace('<p>', ' ').replace('</p>', ' ').strip()  # don't allow multi-line labels / remove leading/trailing tags
 		answer += f'''
-		<div id="{qid}_{aid}" class="answer_option radio{' required' if req else ''}">
-			<input type="radio" id="{qid}_{aid}_input" name="{qid}" value="{aid}"{' required' if req else ''} checked></input>
-			<label for="{qid}_{aid}_input" id="{qid}_{aid}_label">{line}</label>
+		<div id="{qid}_{aid}" class="answer_option radio{' required' if req else ''}{' hidden' if anstype == 'hidden' else ''}{' other' if other else ''}">
+			<input type="radio" id="{qid}_{aid}_input" name="{qid}" value="{aid}"{' required' if req else ''}{' checked' if anstype == 'checked' else ''}{' style="visibility:hidden;"' if anstype == 'hidden' else ''}>
+			{
+		f'<span id="{qid}_{aid}_label">{line}</span>'
+		if anstype == 'hidden' else
+		f'<label id="{qid}_{aid}_label" for="{qid}_{aid}_input">{line}</label>'
+		}
+			{
+		f'<input type="text" id="{qid}_{aid}_textinput" aria-label="Enter your answer for {line} (Other Input Field)">'
+		if other else ''
+		}
 		</div>
 		'''.replace('\n', '').replace('\t', '')
 	return answer
@@ -130,7 +138,7 @@ def radio(block: str, g_options: dict):
 	qid, title, options, description, q_specific = compile_lines(block, g_options)
 	answer = radio_answer(q_specific, options['req'], qid)
 	return f'''
-	<div id="{qid}" class="question radio">
+	<fieldset id="{qid}" class="question radio">
 		<div id="{qid}_title" class="title">{title}</div>
 		<div id="{qid}_description" class="description">
 			{description}
@@ -138,7 +146,7 @@ def radio(block: str, g_options: dict):
 		<div id="{qid}_answer" class="answer">
 			{answer}
 		</div>
-	</div>
+	</fieldset>
 	'''.replace('\n', '').replace('\t', '')
 
 

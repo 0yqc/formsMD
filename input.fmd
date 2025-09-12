@@ -1,5 +1,5 @@
 ? options
-{lang:en,req:false}
+{lang:en,req:true}
 
 ? What is your true, inner age?
 > This question means what you feel like your age is.
@@ -25,6 +25,6 @@
 () 151 to 200
 () 201 to 300
 () 301 to 500
-() 501 to 1000
+() 501 to 999
 () 1000+
 () {id='other'} Exactly this:

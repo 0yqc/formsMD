@@ -1,0 +1,147 @@
+:root {
+	/* CHANGE COLORS & OTHERS HERE */
+	--accent: #7f003f;
+
+	--img_bg: none;
+	--color_bg: #404040;
+	--color_light_50: #7f7f7f;
+	--color_txt: #ffffff;
+	--color_txt_link: #afafaf;
+	--color_req: #ff4020;
+
+	--max-width_form: 96rem;
+	--min-width_form: 50%;
+
+	--padding_form: 2rem;
+	--color_bg_form: #10101040;
+	--color_bg_fieldset: #10101040;
+
+	--color_bg_input: #000000af;
+	--color_bg_input_valid: #007f00af;
+	--color_bg_input_invaild: #af0000af;
+}
+
+/* ADVANCED CSS EDIT */
+
+* {
+	box-sizing: border-box;
+}
+
+html {
+	color: var(--color_txt);
+}
+
+a {
+	color: inherit;
+}
+
+a:hover {
+	color: var(--color_txt_link)
+}
+
+body {
+	background-color: var(--color_bg);
+	background-image: var(--img_bg);
+	background-size: cover;
+	background-attachment: fixed;
+}
+
+form {
+	width: 100%;
+	max-width: var(--max-width_form);
+	min-width: var(--min-width_form);
+	margin: auto; /* center */
+	padding: var(--padding_form);
+	background-color: var(--color_bg_form);
+	border-radius: 32px;
+}
+
+fieldset {
+	width: calc(100% - 2 * (8px));
+	border: none;
+	margin: 8px;
+	padding: 16px;
+	border-radius: 12px;
+	background-color: var(--color_bg_fieldset);
+}
+
+legend {
+	text-decoration-style: solid;
+	text-decoration-color: var(--color_txt);
+	text-decoration-thickness: 2px;
+	text-decoration-line: underline;
+}
+
+.question .title {
+	font-size: 2em;
+}
+
+.question.required .title::after {
+	content: '*';
+	color: var(--color_req);
+	display: inline-block;
+	font-size: 0.75em;
+	vertical-align: top;
+}
+
+.question .description {
+	padding-left: 16px;
+	border-left-style: solid;
+	border-color: var(--color_light_50);
+	border-width: 4px;
+}
+
+label {
+	width: 100%;
+}
+
+input, textarea, select {
+	width: calc(100% - 2 * (8px));
+	margin: 8px;
+	padding: 16px;
+	border-radius: 12px;
+	background-color: var(--color_bg_input);
+	color: inherit;
+	text-align: center;
+	border-style: none;
+	accent-color: var(--accent);
+}
+
+textarea {
+	text-align: initial;
+	resize: vertical;
+}
+
+input[type=radio], input[type=checkbox] {
+	width: 16px;
+}
+
+input[type=text]:valid, textarea:valid {
+	background-color: var(--color_bg_input_valid);
+}
+
+input[type=text]:invalid, textarea:invalid {
+	background-color: var(--color_bg_input_invaild);
+}
+
+.answer_option.other {
+	display: flex;
+	align-items: center;
+}
+
+.answer_option.other input[type=radio], .answer_option.other label {
+	flex-grow: 0;
+	flex-shrink: 0;
+	width: initial;
+	height: initial;
+}
+
+.answer_option.other input[type=text] {
+	flex-grow: 1;
+	flex-shrink: 1;
+	text-align: initial;
+	margin: initial;
+	margin-left: 8px;
+	padding: calc((1 / 2) * (16px));
+	border-radius: calc((1 / 2) * (12px));
+}

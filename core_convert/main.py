@@ -70,7 +70,7 @@ if method == 'formsubmit' or method == 'url':
 				</div>
 			</form>
 			<script src="./script.js"></script>
-			<script src="./other.js"></script>
+			<script src="./fmd.js"></script>
 		</body>
 	</html>
 	'''.strip()  # remove leading/trailing \n
@@ -89,8 +89,8 @@ elif method == "mail":
 				{html}
 				<input type="submit" id="submit" value="Submit Form">
 			</form>
-			<script src="./mailto.js"></script>
-			<script src="./other.js"></script>
+			<script src="./fmd_mail.js"></script>
+			<script src="./fmd.js"></script>
 		</body>
 	</html>
 	'''.strip()  # remove leading/trailing \n
@@ -109,18 +109,18 @@ else:
 				{html}
 				<input type="submit" id="submit" value="Submit Form">
 			</form>
-			<script src="./other.js"></script>
+			<script src="./fmd.js"></script>
 		</body>
 	</html>
 	'''.strip()  # remove leading/trailing \n
 
 if method == 'mail':  # javascript for opening mailto links
-	with open(os.path.join(assets_path, 'mailto.js'), 'r') as js:
+	with open(os.path.join(assets_path, 'fmd_mail.js'), 'r') as js:
 		txt = js.read()
 		txt = txt.replace('{__url__}', redirect)  # replace the redirect link at form submission
 		txt = txt.replace('{__subject__}', subject)  # replaces the email subject with the user-defined
 		txt = txt.replace('{__mail__}', mail)
-		with open(os.path.join(out_path, 'mailto.js '), 'w') as f:
+		with open(os.path.join(out_path, 'fmd_mail.js '), 'w') as f:
 			f.write(txt)
 
 with open(os.path.join(assets_path, 'styles.css'), 'r') as css:
@@ -128,9 +128,9 @@ with open(os.path.join(assets_path, 'styles.css'), 'r') as css:
 	with open(os.path.join(out_path, 'styles.css'), 'w') as f:
 		f.write(txt)
 
-with open(os.path.join(assets_path, 'other.js'), 'r') as js:
+with open(os.path.join(assets_path, 'fmd.js'), 'r') as js:
 	txt = js.read()
-	with open(os.path.join(out_path, 'other.js'), 'w') as f:
+	with open(os.path.join(out_path, 'fmd.js'), 'w') as f:
 		f.write(txt)
 
 with open(os.path.join(out_path, 'index.html'), 'w') as f:

@@ -33,12 +33,16 @@
 
 - every option for inputs just gets added to the input
     - special for req/opt
-    - sepcial for max/min (num) & maxlength/minlenghth (text)
+    - special for max/min (num) & maxlength/minlenghth (text)
         - live
 
-- email defualt to custom pattern (no just tld domains allowed)
+- email default to custom pattern (no just tld domains allowed)
+
+- other for checkbox/radio select type (text/area/any input)
+- restore value from other after unselecting
 
 # BUGS
 
 - empty line in options_compile
 - make radio answer compile less repetitive code
+- pre-set ids need to get some verification (duplicate, valid)

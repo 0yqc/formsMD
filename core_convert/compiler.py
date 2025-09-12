@@ -9,7 +9,7 @@ gen_id_used = {}  # store used ids for the ID generation
 
 # GENERAL FUNCTIONS -- MULTIPLE QUESTION TYPES #
 
-def compile_options(block: str):
+def compile_options(block: str, g_options: dict):
 	block = block.split('\n')
 	# init
 	option_strs = []
@@ -31,8 +31,17 @@ def compile_options(block: str):
 		option = option.split('=')
 		# assign true if valueless
 		if len(option) == 1:
-			option.append('true')
+			option.append(True)
+		if option[1] == 'true':
+			option[1] = True
+		elif option[1] == 'false':
+			option[1] = False
 		options.update({option[0]:option[1]})
+	if 'opt' in options:
+		options.update({'req':not options['opt']})
+		options.pop('opt')
+	if not 'req' in options:  # apply global default
+		options.update({'req':g_options.get('req')})
 	return options
 
 
@@ -73,28 +82,24 @@ def compile_lines(block: str, g_options: dict):
 		elif line.strip():
 			q_specific += line + '\n'
 	# post-processing
-	options = compile_options(options_str)
-	if 'opt' in options:
-		options.update({'req':not options['opt']})
-		options.pop('opt')
-	if not 'req' in options:  # apply global default
-		options.update({'req':g_options['req']})
+	options = compile_options(options_str,g_options)
 	if 'id' in options:
 		qid = options['id']
 	else:
 		qid = gen_id(title, True, 'global_qid')
-	title = md.markdown(title)
+	title = md.markdown(title).removeprefix('<p>').removesuffix('</p>')
 	description = md.markdown(description)
 	return qid.strip(), title.strip(), options, description.strip(), q_specific.strip()
 
 
 # BLOCKS -- BLOCK-SPECIFIC FUNCTIONS #
 
-def radio_answer(block: str, req: str, qid: str):
+def radio_answer(block: str, qid: str, req: bool, none_label: str):
 	block = block.split('\n')
 	# init
 	answer = ''
 	options = {}
+	prechecked = False
 	for line in block:
 		if line.startswith('()') or line.startswith('( )'):
 			line = line.removeprefix('()').removeprefix('( )').strip()
@@ -102,33 +107,40 @@ def radio_answer(block: str, req: str, qid: str):
 		elif line.lower().startswith('(x)'):
 			line = line.removeprefix('(x)').removeprefix('(X)').strip()
 			anstype = 'checked'
+			prechecked = True
 		else:
 			anstype = 'hidden'
 		if '{' in line and '}' in line:
 			split = line.replace('}', '{').split('{')
-			options = compile_options(split[1])
+			options = compile_options(split[1], g_options = {})
 			line = ' '.join(list(split[0].strip()) + [item.strip() for item in split[2:]])
 		if 'id' in options:
 			aid = options['id']
 		else:
 			aid = gen_id(line, True, f'local_{qid}')
-		req = True if options.get('req') == 'true' else req
 		other = True if options.get('id') == 'other' else False
 		line = md.markdown(line).replace('<p>', ' ').replace('</p>', ' ').strip()  # don't allow multi-line labels / remove leading/trailing tags
 		answer += f'''
-		<div id="{qid}_{aid}" class="answer_option radio{' required' if req else ''}{' hidden' if anstype == 'hidden' else ''}{' other' if other else ''}">
-			<input type="radio" id="{qid}_{aid}_input" name="{qid}" value="{aid}"{' required' if req else ''}{' checked' if anstype == 'checked' else ''}{' style="visibility:hidden;"' if anstype == 'hidden' else ''}>
+		<div id="{qid}_ans_{aid}" class="answer_option{' hidden' if anstype == 'hidden' else ''}{' other' if other else ''}">
+			<input type="radio" id="{qid}_ans_{aid}_input" name="{qid}" value="{line}" required{' checked' if anstype == 'checked' else ''}{' style="visibility:hidden;"' if anstype == 'hidden' else ''}>
 			{
-		f'<span id="{qid}_{aid}_label">{line}</span>'
+		f'<span id="{qid}_ans_{aid}_label">{line}</span>'
 		if anstype == 'hidden' else
-		f'<label id="{qid}_{aid}_label" for="{qid}_{aid}_input">{line}</label>'
+		f'<label id="{qid}_ans_{aid}_label" for="{qid}_ans_{aid}_input">{line}</label>'
 		}
 			{
-		f'<input type="text" id="{qid}_{aid}_textinput" aria-label="Enter your answer for {line} (Other Input Field)">'
+		f'<input type="text" id="{qid}_ans_{aid}_textinput" aria-label="Enter your answer for {line} (Other Input Field)" required>'
 		if other else ''
 		}
 		</div>
 		'''.replace('\n', '').replace('\t', '')
+	if not req:
+		answer += f"""
+		<div id="{qid}_none" class="answer_option none">
+			<input type="radio" id="{qid}_none_input" name="{qid}" value="{none_label}"{' checked' if not prechecked else ''}>
+			<label id="{qid}_none_label" for="{qid}_none_input">{none_label}</label>
+		</div>
+		""".replace('\n', '').replace('\t', '')
 	return answer
 
 
@@ -136,10 +148,11 @@ def radio_answer(block: str, req: str, qid: str):
 
 def radio(block: str, g_options: dict):
 	qid, title, options, description, q_specific = compile_lines(block, g_options)
-	answer = radio_answer(q_specific, options['req'], qid)
+	none_label = options.get('none_label') if options.get('none_label') else 'No Answer'
+	answer = radio_answer(q_specific, qid, options['req'], none_label)
 	return f'''
-	<fieldset id="{qid}" class="question radio">
-		<div id="{qid}_title" class="title">{title}</div>
+	<fieldset id="{qid}" class="question radio{' required' if options['req'] else ''}">
+		<legend id="{qid}_title" class="title">{title}</legend>
 		<div id="{qid}_description" class="description">
 			{description}
 		</div>
@@ -172,7 +185,7 @@ def matrix(block: str, g_options: dict):
 
 def global_options(block: str):
 	block = block.replace('? options\n', '').replace('?options\n', '')
-	options = compile_options(block)
+	options = compile_options(block, g_options = {})
 	if 'opt' in options:
 		options.update({'req':not options['opt']})
 		options.pop('opt')

@@ -95,7 +95,7 @@ def compile_lines(block: str, g_options: dict):
 
 # BLOCKS -- BLOCK-SPECIFIC FUNCTIONS #
 
-def options_answer(block: str, q_title: str, qid: str, req: bool, none_label: str):
+def radio_answer(block: str, q_title: str, qid: str, req: bool, none_label: str):
 	block = block.split('\n')
 	# init
 	answer = ''
@@ -143,49 +143,3 @@ def options_answer(block: str, q_title: str, qid: str, req: bool, none_label: st
 		</div>
 		""".replace('\n', '').replace('\t', '')
 	return answer
-
-
-# BLOCKS -- DIRECT ACCESS #
-
-def options(block: str, g_options: dict):
-	qid, title, options, description, q_specific = compile_lines(block, g_options)
-	none_label = options.get('none_label') if options.get('none_label') else 'No Answer'
-	answer = options_answer(q_specific, title, qid, options['req'], none_label)
-	return f'''
-	<fieldset id="{qid}" class="question radio{' required' if options['req'] else ''}">
-		<legend id="{qid}_title" class="title">{title}</legend>
-		<div id="{qid}_description" class="description">
-			{description}
-		</div>
-		<div id="{qid}_answer" class="answer">
-			{answer}
-		</div>
-	</fieldset>
-	'''.replace('\n', '').replace('\t', '')
-
-
-def dropdown(block: str, g_options: dict):
-	print(block)
-
-
-def input_other(block: str, g_options: dict):
-	print(block)
-
-
-def area(block: str, g_options: dict):
-	print(block)
-
-
-def matrix(block: str, g_options: dict):
-	print(block)
-
-
-def global_options(block: str):
-	block = block.replace('? options\n', '').replace('?options\n', '')
-	options = compile_options(block, g_options = {})
-	if 'opt' in options:
-		options.update({'req':not options['opt']})
-		options.pop('opt')
-	if not 'req' in options:
-		options.update({'req':'true'})
-	return options

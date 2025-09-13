@@ -31,17 +31,68 @@ def file(file_path):
 
 def block(text: str, options: dict):  # block compiling logic
 	new_options = {}  # init
-	if re.findall('\n\[.?]|\n\(.?\)', text):  # checkbox question
-		text = compiler.options(text, options)
+	if re.findall('\n\[.?]', text):  # checkbox question
+		text = checkbox(text, options)
+	elif re.findall('\n\(.?\)', text):  # multiple choice question
+		text = radio(text, options)
 	elif '\n|' in text:
-		text = compiler.dropdown(text, options)
+		text = dropdown(text, options)
 	elif 'type=matrix_' in text:
-		text = compiler.matrix(text, options)
+		text = matrix(text, options)
 	elif 'type=area' in text:
-		text = compiler.area(text, options)
+		text = area(text, options)
 	elif 'type=' in text:
-		text = compiler.input_other(text, options)
+		text = input_other(text, options)
 	elif 'options' in text:
-		new_options = compiler.global_options(text)
+		new_options = global_options(text)
 		text = ''
 	return text, new_options
+
+
+# BLOCKS -- DIRECT ACCESS #
+
+def radio(block: str, g_options: dict):
+	qid, title, options, description, q_specific = compiler.compile_lines(block, g_options)
+	none_label = options.get('none_label') if options.get('none_label') else 'No Answer'
+	answer = compiler.radio_answer(q_specific, title, qid, options['req'], none_label)
+	return f'''
+	<fieldset id="{qid}" class="question radio{' required' if options['req'] else ''}">
+		<legend id="{qid}_title" class="title">{title}</legend>
+		<div id="{qid}_description" class="description">
+			{description}
+		</div>
+		<div id="{qid}_answer" class="answer">
+			{answer}
+		</div>
+	</fieldset>
+	'''.replace('\n', '').replace('\t', '')
+
+def checkbox(block: str, g_options: dict):
+	print(block)
+
+
+def dropdown(block: str, g_options: dict):
+	print(block)
+
+
+def input_other(block: str, g_options: dict):
+	print(block)
+
+
+def area(block: str, g_options: dict):
+	print(block)
+
+
+def matrix(block: str, g_options: dict):
+	print(block)
+
+
+def global_options(block: str):
+	block = block.replace('? options\n', '').replace('?options\n', '')
+	options = compiler.compile_options(block, g_options = {})
+	if 'opt' in options:
+		options.update({'req':not options['opt']})
+		options.pop('opt')
+	if not 'req' in options:
+		options.update({'req':'true'})
+	return options

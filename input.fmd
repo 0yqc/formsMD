@@ -1,5 +1,5 @@
 ? options
-{lang:en,req:true}
+{lang:en,req:false}
 
 ? What is your true, inner age?
 > This question means what you feel like your age is.
@@ -28,3 +28,6 @@
 () 501 to 999
 () 1000+
 () {other} Exactly this:
+Now checkboxes:
+() in the same question???
+() that's only with fMD!

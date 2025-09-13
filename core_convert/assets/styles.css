@@ -1,24 +1,27 @@
 :root {
 	/* CHANGE COLORS & OTHERS HERE */
-	--accent: #7f003f;
+	--color_accent: #7f003f;
 
 	--img_bg: none;
 	--color_bg: #404040;
-	--color_light_50: #7f7f7f;
+	--color_light_50: #808080;
 	--color_txt: #ffffff;
-	--color_txt_link: #afafaf;
+	--color_txt_link: #b0b0b0;
 	--color_req: #ff4020;
 
 	--max-width_form: 96rem;
 	--min-width_form: 50%;
 
 	--padding_form: 2rem;
-	--color_bg_form: #10101040;
-	--color_bg_fieldset: #10101040;
+	--color_bg_form: #101010e0;
+	--color_bg_fieldset: #10101020;
 
-	--color_bg_input: #000000af;
-	--color_bg_input_valid: #007f00af;
-	--color_bg_input_invaild: #af0000af;
+	--color_bg_input: #000000;
+
+	--color_bg_valid: #008000;
+	--color_bg_valid_muted: #00800020;
+	--color_bg_invaild: #b00000;
+	--color_bg_invalid_muted: #b0000020;
 }
 
 /* ADVANCED CSS EDIT */
@@ -101,10 +104,12 @@ input, textarea, select {
 	padding: 16px;
 	border-radius: 12px;
 	background-color: var(--color_bg_input);
+	border-color: var(--color_light_50);
+	border-width: 1px;
+	border-style: solid;
 	color: inherit;
 	text-align: center;
-	border-style: none;
-	accent-color: var(--accent);
+	accent-color: var(--color_accent);
 }
 
 textarea {
@@ -116,12 +121,20 @@ input[type=radio], input[type=checkbox] {
 	width: 16px;
 }
 
-input[type=text]:valid, textarea:valid {
-	background-color: var(--color_bg_input_valid);
+input[type=text]:valid, form:valid input[type=submit] {
+	background-color: var(--color_bg_valid);
 }
 
-input[type=text]:invalid, textarea:invalid {
-	background-color: var(--color_bg_input_invaild);
+textarea:valid, fieldset:valid {
+	background-color: var(--color_bg_valid_muted);
+}
+
+input[type=text]:invalid, form:invalid input[type=submit] {
+	background-color: var(--color_bg_invaild);
+}
+
+fieldset:invalid, textarea:invalid {
+	background-color: var(--color_bg_invalid_muted);
 }
 
 .answer_option.other {

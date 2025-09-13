@@ -37,11 +37,12 @@ def compile_options(block: str, g_options: dict):
 		elif option[1] == 'false':
 			option[1] = False
 		options.update({option[0]:option[1]})
+	for option in g_options:
+		if not option in options:
+			options.update({option:g_options[option]})
 	if 'opt' in options:
 		options.update({'req':not options['opt']})
 		options.pop('opt')
-	if not 'req' in options:  # apply global default
-		options.update({'req':g_options.get('req')})
 	return options
 
 
@@ -82,7 +83,7 @@ def compile_lines(block: str, g_options: dict):
 		elif line.strip():
 			q_specific += line + '\n'
 	# post-processing
-	options = compile_options(options_str,g_options)
+	options = compile_options(options_str, g_options)
 	if 'id' in options:
 		qid = options['id']
 	else:
@@ -94,13 +95,13 @@ def compile_lines(block: str, g_options: dict):
 
 # BLOCKS -- BLOCK-SPECIFIC FUNCTIONS #
 
-def radio_answer(block: str, qid: str, req: bool, none_label: str):
+def options_answer(block: str, q_title: str, qid: str, req: bool, none_label: str):
 	block = block.split('\n')
 	# init
 	answer = ''
-	options = {}
 	prechecked = False
 	for line in block:
+		options = {}  # reset
 		if line.startswith('()') or line.startswith('( )'):
 			line = line.removeprefix('()').removeprefix('( )').strip()
 			anstype = 'unchecked'
@@ -111,25 +112,25 @@ def radio_answer(block: str, qid: str, req: bool, none_label: str):
 		else:
 			anstype = 'hidden'
 		if '{' in line and '}' in line:
-			split = line.replace('}', '{').split('{')
-			options = compile_options(split[1], g_options = {})
-			line = ' '.join(list(split[0].strip()) + [item.strip() for item in split[2:]])
+			line_parts = line.replace('}', '{').split('{')
+			options = compile_options(line_parts[1], g_options = {})
+			line = ' '.join(list(line_parts[0].strip()) + [item.strip() for item in line_parts[2:]])
 		if 'id' in options:
 			aid = options['id']
 		else:
 			aid = gen_id(line, True, f'local_{qid}')
-		other = True if options.get('id') == 'other' else False
+		other = True if options.get('other') == True else False
 		line = md.markdown(line).replace('<p>', ' ').replace('</p>', ' ').strip()  # don't allow multi-line labels / remove leading/trailing tags
 		answer += f'''
 		<div id="{qid}_ans_{aid}" class="answer_option{' hidden' if anstype == 'hidden' else ''}{' other' if other else ''}">
-			<input type="radio" id="{qid}_ans_{aid}_input" name="{qid}" value="{line}" required{' checked' if anstype == 'checked' else ''}{' style="visibility:hidden;"' if anstype == 'hidden' else ''}>
+			<input type="radio" id="{qid}_ans_{aid}_input" name="{q_title} ({qid})" value="{line} ({aid})" required{' checked' if anstype == 'checked' else ''}{' style="visibility:hidden;"' if anstype == 'hidden' else ''}>
 			{
 		f'<span id="{qid}_ans_{aid}_label">{line}</span>'
 		if anstype == 'hidden' else
 		f'<label id="{qid}_ans_{aid}_label" for="{qid}_ans_{aid}_input">{line}</label>'
 		}
 			{
-		f'<input type="text" id="{qid}_ans_{aid}_textinput" aria-label="Enter your answer for {line} (Other Input Field)" required>'
+		f'<input type="text" id="{qid}_ans_{aid}_textinput" aria-label="Enter your answer for {line} (Other Input Field)" required name="{line} ({aid})">'
 		if other else ''
 		}
 		</div>
@@ -137,7 +138,7 @@ def radio_answer(block: str, qid: str, req: bool, none_label: str):
 	if not req:
 		answer += f"""
 		<div id="{qid}_none" class="answer_option none">
-			<input type="radio" id="{qid}_none_input" name="{qid}" value="{none_label}"{' checked' if not prechecked else ''}>
+			<input type="radio" id="{qid}_none_input" name="{q_title} ({qid})" value="{none_label} (none)"{' checked' if not prechecked else ''}>
 			<label id="{qid}_none_label" for="{qid}_none_input">{none_label}</label>
 		</div>
 		""".replace('\n', '').replace('\t', '')
@@ -146,10 +147,10 @@ def radio_answer(block: str, qid: str, req: bool, none_label: str):
 
 # BLOCKS -- DIRECT ACCESS #
 
-def radio(block: str, g_options: dict):
+def options(block: str, g_options: dict):
 	qid, title, options, description, q_specific = compile_lines(block, g_options)
 	none_label = options.get('none_label') if options.get('none_label') else 'No Answer'
-	answer = radio_answer(q_specific, qid, options['req'], none_label)
+	answer = options_answer(q_specific, title, qid, options['req'], none_label)
 	return f'''
 	<fieldset id="{qid}" class="question radio{' required' if options['req'] else ''}">
 		<legend id="{qid}_title" class="title">{title}</legend>
@@ -161,10 +162,6 @@ def radio(block: str, g_options: dict):
 		</div>
 	</fieldset>
 	'''.replace('\n', '').replace('\t', '')
-
-
-def checkbox(block: str, g_options: dict):
-	print(block)
 
 
 def dropdown(block: str, g_options: dict):

@@ -22,9 +22,9 @@
 () 91 to 100
 () 101 to 120
 () 121 to 150
-() 151 to 200
+() {other} 151 to 200
 () 201 to 300
 () 301 to 500
 () 501 to 999
 () 1000+
-() {id='other'} Exactly this:
+() {other} Exactly this:

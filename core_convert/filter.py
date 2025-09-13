@@ -31,10 +31,8 @@ def file(file_path):
 
 def block(text: str, options: dict):  # block compiling logic
 	new_options = {}  # init
-	if re.findall('\n\[.?]', text):  # checkbox question
-		text = compiler.checkbox(text, options)
-	elif re.findall('\n\(.?\)', text):  # multiple choice question
-		text = compiler.radio(text, options)
+	if re.findall('\n\[.?]|\n\(.?\)', text):  # checkbox question
+		text = compiler.options(text, options)
 	elif '\n|' in text:
 		text = compiler.dropdown(text, options)
 	elif 'type=matrix_' in text:

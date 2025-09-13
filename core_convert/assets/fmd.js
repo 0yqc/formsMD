@@ -34,10 +34,11 @@ function check_other_disabled(item) {
 }
 
 function check_other_clicked(item) {
-	item.querySelector('input[type=text]').addEventListener('mousedown', function () {
+	item.addEventListener('click', function () {
 		item.querySelector('input[type=checkbox], input[type=radio]').checked = true
-		check_other_disabled(item)
+		other_input.forEach(check_other_disabled)
 		save_input(item.querySelector('input[type=checkbox], input[type=radio]'))
+		item.querySelector('input[type=text]').focus()
 	})
 }
 

@@ -1,5 +1,5 @@
 import compiler  # local file to compile single blocks
-import re # regex filtering
+import re  # regex filtering
 
 
 def file(file_path):
@@ -21,7 +21,7 @@ def file(file_path):
 				else:
 					i -= 1
 					break
-			lines[i], new_options = block(block_str.strip(),options)
+			lines[i], new_options = block(block_str.strip(), options)
 			lines[i] = '\n\n' + lines[i] + '\n\n'
 			options.update(new_options)
 		else:
@@ -67,12 +67,40 @@ def radio(block: str, g_options: dict):
 	</fieldset>
 	'''.replace('\n', '').replace('\t', '')
 
+
 def checkbox(block: str, g_options: dict):
-	print(block)
+	qid, title, options, description, q_specific = compiler.compile_lines(block, g_options)
+	answer = compiler.checkbox_answer(q_specific, title, qid, options['req'])
+	return f'''
+		<fieldset id="{qid}" class="question checkbox{' required' if options['req'] else ''}">
+			<legend id="{qid}_title" class="title">{title}</legend>
+			<div id="{qid}_description" class="description">
+				{description}
+			</div>
+			<div id="{qid}_answer" class="answer">
+				{answer}
+			</div>
+		</fieldset>
+		'''.replace('\n', '').replace('\t', '')
 
 
 def dropdown(block: str, g_options: dict):
-	print(block)
+	qid, title, options, description, q_specific = compiler.compile_lines(block, g_options)
+	none_label = options.get('none_label') if options.get('none_label') else 'No Answer'
+	answer = compiler.dropdown_answer(q_specific, qid, options['req'], none_label)
+	return f'''
+		<fieldset id="{qid}" class="question dropdown{' required' if options['req'] else ''}">
+			<legend id="{qid}_title" class="title">{title}</legend>
+			<div id="{qid}_description" class="description">
+				{description}
+			</div>
+			<div id="{qid}_answer" class="answer">
+				<select id="{qid}_select" name="{title} ({qid})"{' required' if options['req'] else ''}>
+					{answer}
+				</select>
+			</div>
+		</fieldset>
+		'''.replace('\n', '').replace('\t', '')
 
 
 def input_other(block: str, g_options: dict):

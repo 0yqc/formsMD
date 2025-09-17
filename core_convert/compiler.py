@@ -43,6 +43,7 @@ def compile_options(block: str, g_options: dict):
 	if 'opt' in options:
 		options.update({'req':not options['opt']})
 		options.pop('opt')
+	options['req'] = True if not 'req' in options else options['req']
 	return options
 
 
@@ -50,7 +51,7 @@ def gen_id(label: str, unique = True, unique_str = None):
 	label = label.lower()
 	gid = re.sub(r'[^a-z0-9-]', '-', label)
 	gid = re.sub('-+', '-', gid)
-	gid = re.sub(r'^-+|-+$', '', gid)
+	gid = re.sub(r'^-|-$', '', gid)
 	if unique:
 		if unique_str in gen_id_used:
 			i = 1
@@ -117,9 +118,11 @@ def radio_answer(block: str, q_title: str, qid: str, req: bool, none_label: str)
 			line = ' '.join(list(line_parts[0].strip()) + [item.strip() for item in line_parts[2:]])
 		if 'id' in options:
 			aid = options['id']
+			aid = gen_id(aid, True, f'local_{qid}')
 		else:
 			aid = gen_id(line, True, f'local_{qid}')
 		other = True if options.get('other') == True else False
+		other_type = options.get('other_type') if 'other_type' in options else 'text'
 		line = md.markdown(line).replace('<p>', ' ').replace('</p>', ' ').strip()  # don't allow multi-line labels / remove leading/trailing tags
 		answer += f'''
 		<div id="{qid}_ans_{aid}" class="answer_option{' hidden' if anstype == 'hidden' else ''}{' other' if other else ''}">
@@ -130,7 +133,7 @@ def radio_answer(block: str, q_title: str, qid: str, req: bool, none_label: str)
 		f'<label id="{qid}_ans_{aid}_label" for="{qid}_ans_{aid}_input">{line}</label>'
 		}
 			{
-		f'<input type="text" id="{qid}_ans_{aid}_textinput" aria-label="Enter your answer for {line} (Other Input Field)" required name="{line} ({aid})">'
+		f'<input type="{other_type}" id="{qid}_ans_{aid}_textinput" aria-label="Enter your answer for {line} (Other Input Field)" required name="{line} ({aid})">'
 		if other else ''
 		}
 		</div>
@@ -142,4 +145,102 @@ def radio_answer(block: str, q_title: str, qid: str, req: bool, none_label: str)
 			<label id="{qid}_none_label" for="{qid}_none_input">{none_label}</label>
 		</div>
 		""".replace('\n', '').replace('\t', '')
+	return answer
+
+
+def checkbox_answer(block: str, q_title: str, qid: str, req: bool):
+	block = block.split('\n')
+	# init
+	answer = ''
+	for line in block:
+		options = {}  # reset
+		if line.startswith('[]') or line.startswith('[ ]'):
+			line = line.removeprefix('[]').removeprefix('[ ]').strip()
+			anstype = 'unchecked'
+		elif line.lower().startswith('[x]'):
+			line = line.removeprefix('[x]').removeprefix('[X]').strip()
+			anstype = 'checked'
+		else:
+			anstype = 'hidden'
+		if '{' in line and '}' in line:
+			line_parts = line.replace('}', '{').split('{')
+			options = compile_options(line_parts[1], g_options = {})
+			line = ' '.join(list(line_parts[0].strip()) + [item.strip() for item in line_parts[2:]])
+		if 'id' in options:
+			aid = options['id']
+			aid = gen_id(aid, True, f'local_{qid}')
+		else:
+			aid = gen_id(line, True, f'local_{qid}')
+		other = True if options.get('other') == True else False
+		line = md.markdown(line).replace('<p>', ' ').replace('</p>', ' ').strip()  # don't allow multi-line labels / remove leading/trailing tags
+		answer += f'''
+		<div id="{qid}_ans_{aid}" class="answer_option{' hidden' if anstype == 'hidden' else ''}{' other' if other else ''}">
+			<input type="checkbox" id="{qid}_ans_{aid}_input" name="{q_title} ({qid}): {line} ({aid})" {' required' if req else ''}{' checked' if anstype == 'checked' else ''}{' style="visibility:hidden;"' if anstype == 'hidden' else ''}>
+			{
+		f'<span id="{qid}_ans_{aid}_label">{line}</span>'
+		if anstype == 'hidden' else
+		f'<label id="{qid}_ans_{aid}_label" for="{qid}_ans_{aid}_input">{line}</label>'
+		}
+			{
+		f'<input type="text" id="{qid}_ans_{aid}_textinput" aria-label="Enter your answer for {line} (Other Input Field)" required name="{line} ({aid})">'
+		if other else ''
+		}
+		</div>
+		'''.replace('\n', '').replace('\t', '')
+	return answer
+
+def dropdown_answer(block: str, qid: str, req: bool, none_label: str):
+	block = block.split('\n')
+	# init
+	answer = ''
+	optgroup_close = False
+	prechecked = False
+	for line in block:
+		options = {}  # reset
+		if line.startswith('||') or line.startswith('| |'):
+			line = line.removeprefix('||').removeprefix('| |').strip()
+			anstype = 'unchecked'
+		elif line.lower().startswith('|x|'):
+			line = line.removeprefix('|x|').removeprefix('|X|').strip()
+			anstype = 'checked'
+			prechecked = True
+		elif line == '---':
+			answer += '<hr>'
+			continue
+		else:
+			anstype = 'hidden'
+		if '{' in line and '}' in line:
+			line_parts = line.replace('}', '{').split('{')
+			options = compile_options(line_parts[1], g_options = {})
+			line = ' '.join(list(line_parts[0].strip()) + [item.strip() for item in line_parts[2:]])
+		if 'id' in options:
+			aid = options['id']
+			aid = gen_id(aid, True, f'local_{qid}')
+		else:
+			aid = gen_id(line, True, f'local_{qid}')
+			line = md.markdown(line).replace('<p>', ' ').replace('</p>', ' ').strip()  # don't allow multi-line labels / remove leading/trailing tags
+		if not anstype == 'hidden':
+			answer += f'''
+				<option id="{qid}_ans_{aid}" value="{line} ({aid})">{line}</option>
+				'''.replace('\n', '').replace('\t', '')
+		else:
+			if optgroup_close:
+				answer += '</optgroup>'
+				optgroup_close = False
+			answer += f'''
+				<optgroup id="{aid}_ans_{aid}" label="{line}">
+				'''.replace('\n', '').replace('\t', '')
+			optgroup_close = True
+	if optgroup_close:
+		answer += '</optgroup>'
+	if not prechecked:
+		answer = f'''
+			<option id="{qid}_none" value="">Select an option...</option>
+			<hr>
+			'''.replace('\n', '').replace('\t', '') + answer
+	elif not req:
+		answer += f'''
+			<hr>
+			<option id="{qid}_none" value="">{none_label}</option>
+			'''.replace('\n', '').replace('\t', '')
 	return answer

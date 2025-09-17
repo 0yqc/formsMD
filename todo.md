@@ -21,11 +21,8 @@
     - special for req/opt
     - special for max/min (num) & maxlength/minlenghth (text)
         - live
-
-- other for checkbox/radio select type (text/area/any input)
 - restore value from other after unselecting
 
 # BUGS
 
 - empty line in options_compile
-- pre-set ids need to get some verification (duplicate, valid)

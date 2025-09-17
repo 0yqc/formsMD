@@ -18,9 +18,9 @@ converted, options = filter.file(inp_path)  # start the compiling (./filter.py)
 
 lang = options.get('lang') if 'lang' in options else 'en'
 method = options.get('submit_method') if 'submit_method' in options else 'mail'
-mail = options.get('mail_address') if 'mail' in options else ''
+mail = options.get('mail_address') if 'mail_address' in options else ''
 action_url = options.get('url') if 'url' in options else ''
-redirect = options.get('redirect') if 'url' in options else ''
+redirect = options.get('redirect') if 'url' in options else 'window.location.href'
 title = options.get('title') if 'title' in options else 'formsMD Form'
 subject = options.get('mail_subject') if 'mail_subject' in options else f'New {title} Submission!'
 
@@ -40,7 +40,7 @@ if method == 'formsubmit' or method == 'url':
 			<link rel="stylesheet" href="./styles.css">
 		</head>
 		<body>
-			<form id="page1_form" action="{action_url}" method="POST" enctype=multipart/form-data>
+			<form id="fmd_form" action="{action_url}" method="POST" enctype=multipart/form-data>
 				{html}
 				<input type="hidden" name="_next" value="{redirect}">
 				<input type="hidden" name="_subject" value="{subject}">
@@ -64,7 +64,7 @@ elif method == "mail":
 			<link rel="stylesheet" href="./styles.css">
 		</head>
 		<body>
-			<form id="page1_form" action="{action_url}">
+			<form id="fmd_form" action="{action_url}">
 				{html}
 				<input type="submit" id="submit" value="Submit Form">
 			</form>
@@ -84,7 +84,7 @@ else:
 			<link rel="stylesheet" href="./styles.css">
 		</head>
 		<body>
-			<form id="page1_form" action="{action_url}">
+			<form id="fmd_form" action="{action_url}">
 				{html}
 				<input type="submit" id="submit" value="Submit Form">
 			</form>

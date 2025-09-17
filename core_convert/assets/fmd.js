@@ -1,46 +1,20 @@
 input_elements = document.querySelectorAll('input, textarea, select') // auto-save
-input_elements.forEach(load_input) // re-load saved input fields
-
-other_input = document.querySelectorAll('div.answer_option.other') // dynamically hide other answer texts
-other_input.forEach(check_other_disabled) // check if they should be visible or not
-other_input.forEach(check_other_clicked) // check if they are clicked to select appropriate radio/checkbox
-
+other_input_elements = document.querySelectorAll('div.answer_option.other') // dynamically hide other answer texts
 textarea_elements = document.querySelectorAll('textarea') // auto-expand
-textarea_elements.forEach(expand_textarea)
 
-document.querySelector('form').addEventListener('change', function () {
-	// change is for checkbox, radio
-	other_input.forEach(check_other_disabled) // dynamically hide other answer texts
-	input_elements.forEach(save_input)
-})
+input_elements.forEach(load_input) // re-load saved input fields
+textarea_elements.forEach(expand_textarea)
+other_input_elements.forEach(other_check_disabled)
+other_input_elements.forEach(other_check_text)
 
 document.querySelector('form').addEventListener('input', function () {
 	// input is for text, textarea
 	input_elements.forEach(save_input)
 	textarea_elements.forEach(expand_textarea)
+	other_input_elements.forEach(other_check_disabled)
 })
 
 // FUNCTIONS
-
-function check_other_disabled(item) {
-	if (item.querySelector('input[type=checkbox], input[type=radio]').checked) {
-		item.querySelector('input[type=text]').setAttribute('required', '')
-		item.querySelector('input[type=text]').setAttribute('placeholder', 'Enter your answer here...')
-	} else {
-		item.querySelector('input[type=text]').removeAttribute('required')
-		item.querySelector('input[type=text]').removeAttribute('placeholder')
-		item.querySelector('input[type=text]').value = ''
-	}
-}
-
-function check_other_clicked(item) {
-	item.addEventListener('click', function () {
-		item.querySelector('input[type=checkbox], input[type=radio]').checked = true
-		other_input.forEach(check_other_disabled)
-		save_input(item.querySelector('input[type=checkbox], input[type=radio]'))
-		item.querySelector('input[type=text]').focus()
-	})
-}
 
 function save_input(item) {
 	if (item.type === 'radio' || item.type === 'checkbox') {
@@ -62,4 +36,25 @@ function load_input(item) {
 
 function expand_textarea(item) {
 	item.style.height = item.scrollHeight + 'px'
+}
+
+function other_check_disabled(item) {
+	inp_text = item.querySelector('input[type=text]')
+	inp_option = item.querySelector('input[type=checkbox], input[type=radio]')
+	if (inp_option.checked) {
+		inp_text.required = true
+		inp_text.placeholder = 'Type your answer here...'
+	} else {
+		inp_text.required = false
+		inp_text.placeholder = ''
+		inp_text.value = ''
+	}
+}
+
+function other_check_text(item) {
+	inp_text = item.querySelector('input[type=text]')
+	inp_option = item.querySelector('input[type=checkbox], input[type=radio]')
+	inp_text.addEventListener('input', function () {
+		inp_option.checked = true
+	})
 }

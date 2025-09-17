@@ -1,4 +1,4 @@
-document.getElementById('page1_form').addEventListener('submit', function (event) { // execute this function when the form is submitted
+document.getElementById('fmd_form').addEventListener('submit', function (event) { // execute this function when the form is submitted
 	event.preventDefault() // prevent default form events
 	const formdata = new FormData(this) // get all the form data
 

@@ -2,7 +2,7 @@ document.getElementById('fmd_form').addEventListener('submit', function (event) 
 	event.preventDefault() // prevent default form events
 	const formdata = new FormData(this) // get all the form data
 
-	let link = 'mailto:luna_hagemann@gmx.de?subject=New formsMD Form Submission!&body=You need to send this email for your result to count.' // base email link, New formsMD Form Submission! gets replaced by Py processing
+	let link = 'mailto:?subject=New formsMD Form Submission!&body=You need to send this email for your result to count.' // base email link, New formsMD Form Submission! gets replaced by Py processing
 
 	for (const key of formdata.keys()) { // loop through the form data
 		if (formdata.get(key).toString().length > 0) { // only proceed if the value of a given key exists (is 1 or more chars long)

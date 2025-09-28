@@ -1,10 +1,6 @@
-?options
-	{mail_address:luna_hagemann@gmx.de}
-
-? Was isst du heute zum Abendbrot?
-	> Döner ist lecker.
-	{opt}
-	|x| Döner
-	|| Dürüm
-	|| Burger
-	|| Pommes
+? How would you rate formsMD?
+	{multiple}
+	|x| Option A
+	|x| Option B
+	|x| Option C
+	|x| pre-selected

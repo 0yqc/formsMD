@@ -1,14 +1,15 @@
 input_elements = document.querySelectorAll('input, textarea, select') // auto-save
 other_input_elements = document.querySelectorAll('div.answer_option.other') // dynamically hide other answer texts
 textarea_elements = document.querySelectorAll('textarea') // auto-expand
+multi_dropdown_answers = document.querySelectorAll('fieldset.dropdown.multiple .answer')
 
 input_elements.forEach(load_input) // re-load saved input fields
 textarea_elements.forEach(expand_textarea)
 other_input_elements.forEach(other_check_disabled)
 other_input_elements.forEach(other_check_text)
+multi_dropdown_answers.forEach()
 
 document.querySelector('form').addEventListener('input', function () {
-	// input is for text, textarea
 	input_elements.forEach(save_input)
 	textarea_elements.forEach(expand_textarea)
 	other_input_elements.forEach(other_check_disabled)
@@ -57,4 +58,8 @@ function other_check_text(item) {
 	inp_text.addEventListener('input', function () {
 		inp_option.checked = true
 	})
+}
+
+function multi_dropdown_check(item) {
+
 }

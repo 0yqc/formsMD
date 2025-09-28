@@ -22,6 +22,9 @@
 	--color_bg_valid_muted: #00800020;
 	--color_bg_invaild: #b00000;
 	--color_bg_invalid_muted: #b0000020;
+
+	--color_bg_matrix_even: #20202080;
+	--color_bg_matrix_odd: #40404080;
 }
 
 /* ADVANCED CSS EDIT */
@@ -119,6 +122,41 @@ textarea {
 
 input[type=radio], input[type=checkbox] {
 	width: 16px;
+}
+
+select optgroup, select option {
+	text-align: left;
+}
+
+select optgroup {
+	font-weight: bold;
+}
+
+.matrix {
+	table {
+		margin: auto;
+
+		tbody {
+			margin: 0;
+
+			tr:nth-child(even) {
+				background-color: var(--color_bg_matrix_even);
+			}
+
+			tr:nth-child(odd) {
+				background-color: var(--color_bg_matrix_odd);
+			}
+
+			th {
+				text-align: right;
+			}
+
+			td {
+				text-align: center;
+			}
+
+		}
+	}
 }
 
 input[type=text]:valid, form:valid input[type=submit] {

@@ -52,7 +52,7 @@ if method == 'formsubmit' or method == 'url':
 			<script src="./fmd.js"></script>
 		</body>
 	</html>
-	'''.strip()  # remove leading/trailing \n
+	'''.replace('\n', '').replace('\t', '')
 elif method == "mail":
 	html = f'''
 	<!doctype html>
@@ -72,7 +72,7 @@ elif method == "mail":
 			<script src="./fmd.js"></script>
 		</body>
 	</html>
-	'''.strip()  # remove leading/trailing \n
+	'''.replace('\n', '').replace('\t', '')
 else:
 	html = f'''
 	<!doctype html>
@@ -91,7 +91,7 @@ else:
 			<script src="./fmd.js"></script>
 		</body>
 	</html>
-	'''.strip()  # remove leading/trailing \n
+	'''.replace('\n', '').replace('\t', '')
 
 if method == 'mail':  # javascript for opening mailto links
 	with open(os.path.join(assets_path, 'fmd_mail.js'), 'r') as js:

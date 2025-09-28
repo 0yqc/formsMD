@@ -16,13 +16,7 @@
 
 - multi dropdown
 	- normal html dropdown, each select just adds/removes it from a list shown in the input field
-
-- every option for inputs just gets added to the input
-    - special for req/opt
-    - special for max/min (num) & maxlength/minlenghth (text)
-        - live
 - restore value from other after unselecting
-
-# BUGS
-
-- empty line in options_compile
+- indicators for min/max lenght of input
+---
+- general inspection of code

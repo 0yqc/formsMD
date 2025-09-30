@@ -5,7 +5,6 @@
 - hidden fields
 	- url parameter
 - wiki via mkdocs.org
-- matrix for every input
 - direct linear scale/range
 	- range without specific points
 - ordering question / ranking
@@ -14,9 +13,5 @@
 	- hcaptcha
 - location (OpenStreetMap)
 
-- multi dropdown
-	- normal html dropdown, each select just adds/removes it from a list shown in the input field
 - restore value from other after unselecting
 - indicators for min/max lenght of input
----
-- general inspection of code

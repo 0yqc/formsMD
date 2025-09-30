@@ -132,6 +132,39 @@ select optgroup {
 	font-weight: bold;
 }
 
+select option.selected {
+	display: none;
+}
+
+fieldset.dropdown.multiple .answers div {
+	background-color: var(--color_bg_input);
+	margin: 8px;
+	padding: 16px;
+	padding-bottom: 4px;
+	padding-top: 4px;
+	border-radius: 12px;
+
+	display: flex;
+	align-items: center;
+
+	span.text {
+		flex-grow: 1;
+		flex-shrink: 0;
+	}
+
+	span.close {
+		flex-grow: 0;
+		flex-shrink: 0;
+
+		button {
+			background-color: var(--color_bg_input);
+			color: var(--color_txt);
+			font-size: 2em;
+			border-style: none;
+		}
+	}
+}
+
 .matrix {
 	table {
 		margin: auto;

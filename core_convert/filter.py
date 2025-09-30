@@ -40,7 +40,7 @@ def compile_block(text: str, options: dict):  # block compiling logic
 			text = dropdown_multi(text, options)
 		else:
 			text = dropdown(text, options)
-	elif re.findall(r'type=.matrix', text):
+	elif re.findall(r'type=.?matrix', text):
 		text = matrix(text, options)
 	elif '?options' in text or '? options' in text:
 		new_options = global_options(text)
@@ -117,9 +117,10 @@ def dropdown_multi(block: str, g_options: dict):
 			</div>
 			<div id="{qid}_answer" class="answer">
 				<div id="{qid}_answers" class="answers"></div>
-				<select id="{qid}_select" name="{title} ({qid})"{' required' if options['req'] else ''}{options['attr'] if 'attr' in options else ''}>
+				<select id="{qid}_select" class="multiple" {options['attr'] if 'attr' in options else ''}>
 					{select}
 				</select>
+				<input id="{qid}_hidden" type="hidden" name="{title} ({qid}): Selected Elements" value=""></input>
 			</div>
 		</fieldset>
 		'''.replace('\n', '').replace('\t', '')

@@ -1,6 +1,82 @@
-? How would you rate formsMD?
-	{multiple}
-	|x| Option A
-	|x| Option B
-	|x| Option C
-	|x| pre-selected
+? options
+	{opt,lang=en,submit_method=formsubmit,mail_address=0yqc@duck.com,redirect='https://summer.hackclub.com/projects/4270/',title="formsMD Form - SoM",subject="SoM Voring Form Submission"}
+
+# [*formsMD*](https://github.com/0yqc/formsMD/)
+
+Welcome to the survey of *formsMD*!
+
+Here are several links for formsMD on different platforms:
+
+- [Summer of Making](https://summer.hackclub.com/projects/4270/)
+- [GitHub repository](https://github.com/0yqc/formsMD/)
+
+---
+
+If you are on this form, it probably means, that you are either a shipwright approving my project or, more likely, someone voting for this project against another one. Could you tell me?
+
+? Who are you?
+() A shipwright
+() A voter from SoM
+() {other} Someone else:
+
+By the way, this form is completely what my program does. It converts a MarkDown-like syntax for questions to actual interactable questions. In fact this whole HTML for this form you are viewing right now, was not altered by me in any way, it's the pure output of my script. For example, the above question is produced by the following code:
+
+\? Who are you?
+
+() A shipwright
+
+() A voter from SoM
+
+() {other} Someone else:
+
+If you want to see the full source code for this form, you can look at it [here](https://raw.githubusercontent.com/0yqc/formsMD/main/input.fmd).
+
+---
+
+So, if you are a voter, I would love to hear some details about who I'm matched against. (If you are a shipwright or other person, there's more questions down below for you!)
+
+? What other project am I matched against?
+> I would be very interested in this information, but it is optional.
+{type:text,attr:'placeholder="Project name, URL, etc."'}
+
+? Who won the decision?
+|| formsMD
+|| The other project
+|| Tie
+
+? And what was your reasoning
+> You can just copy/paste your answer from "Tell us why you made this choice" on the SoM voting page.
+{type:text}
+
+Thank you for giving me that information!
+
+---
+
+So, you now know a bit about formsMD, so you can rate different features of it!
+
+? How would you rate the following aspects of formsMD?
+> Do you also hate it, if you can't select the middle? Now you can!
+{type=matrix_radio}
+1⭐ | 2⭐ | 2,5⭐ | 3⭐ | 4⭐ | 5⭐ | No Answer
+Many Inputs
+Efficiency compared to usual survey platforms
+Overall
+
+? What features from my todo list are the most important to you?
+{multiple}
+> You can select multiple!
+|| Pages system
+|| Custom logic (only possible through JS currently)
+|| Better Star rating
+|| Ranking question type
+|| Captcha
+|| Location picker (via OpenStreetMap)
+
+---
+
+So, if you have anything else to say, add it here:
+
+? Notes
+{type:area,attr='placeholder="suggestions, feedback, etc."'}
+
+Thanks for participating, have a nice day and I'd really appreciate if you submit this form via the button below, I do read through all answers and consider them.

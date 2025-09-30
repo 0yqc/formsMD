@@ -207,13 +207,14 @@ def checkbox_answer(block: str, q_title: str, qid: str, q_options: dict):
 def dropdown_answer(block: str, qid: str, options: dict):
 	block = block.split('\n')
 	# init
+	optgroup_close = False
 	answer = ''
 	optgroup_close = False
 	prechecked = False
 	req = options['req']
 	multi = options['multiple'] if 'multiple' in options else False
 	none_label = options['none_label'] if 'none_label' in options else 'No Answer'
-	select_label = options['select_label'] if 'select_label' in options else 'Select an option...'
+	select_label = options['select_label'] if 'select_label' in options else ('Select an item to add...' if multi else 'Select an option...')
 	for line in block:
 		options = {}  # reset
 		if line.startswith('||') or line.startswith('| |'):
@@ -262,7 +263,7 @@ def dropdown_answer(block: str, qid: str, options: dict):
 			'''.replace('\n', '').replace('\t', '')
 	if multi:
 		answer = f'''
-			<option id="{qid}_none" vaue="">{select_label}</option>
+			<option id="{qid}_none" value="">{select_label}</option>
 			<hr>
 			'''.replace('\n', '').replace('\t', '') + answer
 	return answer

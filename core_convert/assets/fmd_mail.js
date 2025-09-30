@@ -6,7 +6,7 @@ document.getElementById('fmd_form').addEventListener('submit', function (event) 
 
 	for (const key of formdata.keys()) { // loop through the form data
 		if (formdata.get(key).toString().length > 0) { // only proceed if the value of a given key exists (is 1 or more chars long)
-			link = link + '%0A%0A%0AKey: ' + key.trim() + '%0A%0AValue: ' + encodeURIComponent(formdata.get(key).toString().trim()) // add this data to the link, %0D%0A is the unicode escape sequence for newlines, which can be used in links, ecodeURIComponent() is being used to encode input fileds for email conversion
+			link = link + '%0A%0A%0A' + key.trim() + '%0A%0A' + encodeURIComponent(formdata.get(key).toString().trim()) // add this data to the link, %0D%0A is the unicode escape sequence for newlines, which can be used in links, ecodeURIComponent() is being used to encode input fileds for email conversion
 		}
 	}
 

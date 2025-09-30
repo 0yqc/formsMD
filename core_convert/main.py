@@ -20,7 +20,7 @@ lang = options.get('lang') if 'lang' in options else 'en'
 method = options.get('submit_method') if 'submit_method' in options else 'mail'
 mail = options.get('mail_address') if 'mail_address' in options else ''
 action_url = options.get('url') if 'url' in options else ''
-redirect = options.get('redirect') if 'url' in options else 'window.location.href'
+redirect = options.get('redirect') if 'redirect' in options else 'window.location.href'
 title = options.get('title') if 'title' in options else 'formsMD Form'
 subject = options.get('mail_subject') if 'mail_subject' in options else f'New {title} Submission!'
 

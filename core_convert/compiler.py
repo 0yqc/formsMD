@@ -45,13 +45,13 @@ def compile_options(block: str, g_options: dict):
 			enquoted_by = ''
 		else:
 			construct += char
-	options.update(g_options)
 	if 'opt' in options:
 		options.update({'req': not options['opt']})
 		options.pop('opt')
+	g_options.update(options) # g_options now becomes the normal options
 	if not 'req' in options:
-		options.update({'req': True})
-	return options
+		g_options.update({'req': True})
+	return g_options
 
 
 def gen_id(label: str, unique = True, unique_str = None):

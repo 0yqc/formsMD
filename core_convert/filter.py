@@ -40,7 +40,7 @@ def compile_block(text: str, options: dict):  # block compiling logic
 			text = dropdown_multi(text, options)
 		else:
 			text = dropdown(text, options)
-	elif re.findall(r'type=.?matrix', text):
+	elif re.findall(r'type[=:].?matrix', text):
 		text = matrix(text, options)
 	elif '?options' in text or '? options' in text:
 		new_options = global_options(text)

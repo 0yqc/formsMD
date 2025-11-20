@@ -3,6 +3,12 @@ advanced markdown extension to handle form elements and logic
 
 Use *formsMD* to create forms and surveys with ease and host them on your own infrastructure (such as a custom server, or even GitHub/GitLab/Cloudflare Pages, etc.), fully client side! You can write forms in a MarkDown like syntax with complete support for all Markdown syntaxes, so you can style it well and *formsMD* will convert it into a fully working, good-looking online form which you can share and get results on.
 
+# Links:
+
+- [formsMD on GitHub](https://github.com/0yqc/formsMD/)
+- [formsMD on Summer of Making](https://summer.hackclub.com/projects/4270)
+- [formsMD on Hackclub Midnight](https://midnight.hackclub.com/app/projects/520)
+
 # Question Types
 
 - Radio Buttons / Multiple-Choice (incl. Other, this:)

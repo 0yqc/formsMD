@@ -45,6 +45,10 @@ a:hover {
 	color: var(--color_txt_link)
 }
 
+img {
+  width: 100%;
+}
+
 body {
 	background-color: var(--color_bg);
 	background-image: var(--img_bg);

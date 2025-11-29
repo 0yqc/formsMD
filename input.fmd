@@ -1,5 +1,6 @@
 ? options
-	{opt,lang=en,submit_method=formsubmit,mail_address=0yqc@duck.com,redirect='https://summer.hackclub.com/projects/4270/',title="formsMD Form - SoM",subject="SoM Voting Form Submission"}
+	{opt,lang=en,submit_method=formsubmit,mail_address=0yqc@duck.com,redirect='https://summer.hackclub.com/projects/4270/',title="formsMD Form - Midnight",subject="Midnight formsMD Submission"}
+
 
 # [*formsMD*](https://github.com/0yqc/formsMD/)
 
@@ -8,30 +9,32 @@ Welcome to the survey of *formsMD*!
 Here are several links for formsMD on different platforms:
 
 - [Summer of Making](https://summer.hackclub.com/projects/4270/)
+- [Hackclub Midnight](https://midnight.hackclub.com/projects/5220/)
 - [GitHub repository](https://github.com/0yqc/formsMD/)
 
 ---
 
-If you are on this form, it probably means, that you are either a shipwright approving my project or, more likely, someone voting for this project against another one. Could you tell me?
+If you are on this form, it probably means, that you are another teen attending Midnight, so could you tell me?
 
 ? Who are you?
-() A shipwright
-() A voter from SoM
+() A teen participating in Midnight
+() Hackclub/Midnight staff
 () {other} Someone else:
 
 By the way, this form is completely what my program does. It converts a MarkDown-like syntax for questions to actual interactable questions. In fact this whole HTML for this form you are viewing right now, was not altered by me in any way, it's the pure output of my script. For example, the above question is produced by the following code:
 
+```
 \? Who are you?
-
-() A shipwright
-
-() A voter from SoM
-
+() A teen participating in Midnight
+() Hackclub/Midnight staff
 () {other} Someone else:
+```
 
 If you want to see the full source code for this form, you can look at it [here](https://raw.githubusercontent.com/0yqc/formsMD/main/input.fmd).
 
 ---
+
+> Note: The following part only applied to the SoM voting system, but feel free to enter some random shit
 
 So, if you are a voter, I would love to hear some details about who I'm matched against. (If you are a shipwright or other person, there's more questions down below for you!)
 
